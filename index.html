@@ -84,7 +84,6 @@
         function updatePacoteQuantidades(pacote, quantidade) {
             pacoteQuantidades[pacote] = parseInt(quantidade) || 0;
             updatePacoteTotals();
-            saveState();
         }
 
         function updatePacoteTotals() {
@@ -100,7 +99,6 @@
             });
             document.getElementById('totalRPacotes').innerText = totalR.toFixed(2);
             document.getElementById('totalDPacotes').innerText = totalD.toFixed(2);
-            saveState();
         }
 
         function copyToClipboard() {
@@ -112,32 +110,6 @@
                 alert('Informações copiadas para a área de transferência!');
             });
         }
-
-        function saveState() {
-            const state = {
-                exchangeRate,
-                pacoteQuantidades,
-            };
-            localStorage.setItem('appState', JSON.stringify(state));
-        }
-
-        function loadState() {
-            const state = JSON.parse(localStorage.getItem('appState'));
-            if (state) {
-                exchangeRate = state.exchangeRate;
-                pacoteQuantidades = state.pacoteQuantidades;
-                updateDisplays();
-            }
-        }
-
-        function updateDisplays() {
-            Object.keys(pacoteQuantidades).forEach(pacote => {
-                document.getElementById(`pacote${pacote}`).value = pacoteQuantidades[pacote];
-            });
-            updatePacoteTotals();
-        }
-
-        window.onload = loadState;
     </script>
 </head>
 <body>
