@@ -64,6 +64,12 @@
             margin: 10px 0;
             padding: 0;
         }
+        .instruction {
+            color: #FF6EC7;
+            font-size: 0.9em;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
     </style>
     <script>
         let exchangeRate = 5.69;
@@ -105,7 +111,20 @@
             const totalR = document.getElementById('totalRPacotes').innerText;
             const totalD = document.getElementById('totalDPacotes').innerText;
             const quantidades = Object.keys(pacoteQuantidades).map(pacote => `Pacote de $${pacote}: ${pacoteQuantidades[pacote]}`).join('\n');
-            const textToCopy = `Total em R$: ${totalR}\nTotal em $: ${totalD}\n${quantidades}`;
+            const login = document.getElementById('login').value;
+            const password = document.getElementById('password').value;
+            const nickname = document.getElementById('nickname').value;
+            const level = document.getElementById('level').value;
+            const server = document.getElementById('server').value;
+
+            let additionalInfo = '';
+            if (login) additionalInfo += `Login: ${login}\n`;
+            if (password) additionalInfo += `Password: ${password}\n`;
+            if (nickname) additionalInfo += `Nickname: ${nickname}\n`;
+            if (level) additionalInfo += `Level: ${level}\n`;
+            if (server) additionalInfo += `Server: ${server}\n`;
+
+            const textToCopy = `Total em R$: ${totalR}\nTotal em $: ${totalD}\n${quantidades}\n${additionalInfo}`;
             navigator.clipboard.writeText(textToCopy).then(() => {
                 alert('Informações copiadas para a área de transferência!');
             });
@@ -144,7 +163,18 @@
     <div class="panel">
         <h2>Total de Todos os Pacotes</h2>
         <p>Total: R$<span id="totalRPacotes">0.00</span> / $<span id="totalDPacotes">0.00</span></p>
+        <label for="login">Login:</label>
+        <input type="text" id="login"><br>
+        <label for="password">Password:</label>
+        <input type="text" id="password"><br>
+        <label for="nickname">Nickname:</label>
+        <input type="text" id="nickname"><br>
+        <label for="level">Level:</label>
+        <input type="text" id="level"><br>
+        <label for="server">Server:</label>
+        <input type="text" id="server"><br>
         <button onclick="copyToClipboard()">Copiar Total</button>
+        <span class="instruction">Clique para copiar todas as informações, e envie no chat.</span>
     </div>
     <div class="panel">
         <h2>Informações de Pagamento</h2>
