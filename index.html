@@ -110,7 +110,10 @@
         function copyToClipboard() {
             const totalR = document.getElementById('totalRPacotes').innerText;
             const totalD = document.getElementById('totalDPacotes').innerText;
-            const quantidades = Object.keys(pacoteQuantidades).map(pacote => `Pacote de $${pacote}: ${pacoteQuantidades[pacote]}`).join('\n');
+            const quantidades = Object.keys(pacoteQuantidades)
+                .filter(pacote => pacoteQuantidades[pacote] > 0)
+                .map(pacote => `Pacote de $${pacote}: ${pacoteQuantidades[pacote]}`)
+                .join('\n');
             const login = document.getElementById('login').value;
             const password = document.getElementById('password').value;
             const nickname = document.getElementById('nickname').value;
@@ -174,7 +177,7 @@
         <label for="server">Server:</label>
         <input type="text" id="server"><br>
         <button onclick="copyToClipboard()">Copiar Total</button>
-        <span class="instruction">Clique para copiar todas as informações, e envie no chat.</span>
+        <span class="instruction">Clique para copiar as informações e os totais</span>
     </div>
     <div class="panel">
         <h2>Informações de Pagamento</h2>
