@@ -43,7 +43,7 @@
             border: none;
             border-radius: 5px;
             font-size: 1em;
-            background-color: #FFD700;
+            background-color: #4B0082; /* cor roxo escuro */
             color: white;
             cursor: pointer;
         }
@@ -90,6 +90,7 @@
         function updatePacoteQuantidades(pacote, quantidade) {
             pacoteQuantidades[pacote] = parseInt(quantidade) || 0;
             updatePacoteTotals();
+            atualizarValoresComCartao();
         }
 
         function updatePacoteTotals() {
@@ -132,34 +133,49 @@
                 alert('Informações copiadas para a área de transferência!');
             });
         }
+
+        function calcularTotalComCartao(total) {
+            return (total * 1.06).toFixed(2);
+        }
+
+        function atualizarValoresComCartao() {
+            const totalRPacotes = parseFloat(document.getElementById('totalRPacotes').innerText);
+            const totalDPacotes = parseFloat(document.getElementById('totalDPacotes').innerText);
+            document.getElementById('totalRPacotesCartao').innerText = calcularTotalComCartao(totalRPacotes);
+            document.getElementById('totalDPacotesCartao').innerText = calcularTotalComCartao(totalDPacotes);
+        }
+
+        window.addEventListener('load', () => {
+            atualizarValoresComCartao();
+        });
     </script>
 </head>
 <body>
     <div class="panel">
         <h2>Pacote de $10</h2>
         <label for="pacote10">Quantidade:</label>
-        <input type="number" id="pacote10" value="0" oninput="updatePacoteQuantidades(10, this.value)"><br>
+        <input type="number" id="pacote10" value="0" oninput="updatePacoteQuantidades(10, this.value);"><br>
         <p>Preço com desconto: $7.30</p>
         <p>Total: R$<span id="totalR10">0.00</span> / $<span id="totalD10">0.00</span></p>
     </div>
     <div class="panel">
         <h2>Pacote de $30</h2>
         <label for="pacote30">Quantidade:</label>
-        <input type="number" id="pacote30" value="0" oninput="updatePacoteQuantidades(30, this.value)"><br>
+        <input type="number" id="pacote30" value="0" oninput="updatePacoteQuantidades(30, this.value);"><br>
         <p>Preço com desconto: $21.00</p>
         <p>Total: R$<span id="totalR30">0.00</span> / $<span id="totalD30">0.00</span></p>
     </div>
     <div class="panel">
         <h2>Pacote de $50</h2>
         <label for="pacote50">Quantidade:</label>
-        <input type="number" id="pacote50" value="0" oninput="updatePacoteQuantidades(50, this.value)"><br>
+        <input type="number" id="pacote50" value="0" oninput="updatePacoteQuantidades(50, this.value);"><br>
         <p>Preço com desconto: $35.00</p>
         <p>Total: R$<span id="totalR50">0.00</span> / $<span id="totalD50">0.00</span></p>
     </div>
     <div class="panel">
         <h2>Pacote de $100</h2>
         <label for="pacote100">Quantidade:</label>
-        <input type="number" id="pacote100" value="0" oninput="updatePacoteQuantidades(100, this.value)"><br>
+        <input type="number" id="pacote100" value="0" oninput="updatePacoteQuantidades(100, this.value);"><br>
         <p>Preço com desconto: $70.00</p>
         <p>Total: R$<span id="totalR100">0.00</span> / $<span id="totalD100">0.00</span></p>
     </div>
@@ -182,7 +198,8 @@
     <div class="panel">
         <h2>Informações de Pagamento</h2>
         <p>Pix: CELULAR 14988231270 Nome: Victoria Stefany</p>
-        <p>Mercado Pago: <a href="https://link.mercadopago.com.br/ervindanada" target="_blank">link</a></p>
+        <p>Mercado Pago: <a href="https://link.mercadopago.com.br/ervindanada" target="_blank">link</a> 
+        (6% mais caro se for no cartão: R$<span id="totalRPacotesCartao">0.00</span> / $<span id="totalDPacotesCartao">0.00</span>)</p>
         <p>Binance: estrela203@hotmail.com</p>
     </div>
 </body>
