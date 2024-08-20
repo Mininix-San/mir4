@@ -74,6 +74,7 @@
     <script>
         let exchangeRate = 5.52;
         let pacoteQuantidades = {
+            3: 0,
             10: 0,
             30: 0,
             50: 0,
@@ -81,6 +82,7 @@
         };
 
         const pacotePrecos = {
+            3: 2.60,
             10: 7.50,
             30: 22.50,
             50: 36.50,
@@ -152,6 +154,13 @@
 </head>
 <body>
     <div class="panel">
+        <h2>Pacote de $3</h2>
+        <label for="pacote3">Quantidade:</label>
+        <input type="number" id="pacote3" value="0" oninput="updatePacoteQuantidades(3, this.value);"><br>
+        <p>Preço com desconto: $2.60</p>
+        <p>Total: R$<span id="totalR3">0.00</span> / $<span id="totalD3">0.00</span></p>
+    </div>
+    <div class="panel">
         <h2>Pacote de $10</h2>
         <label for="pacote10">Quantidade:</label>
         <input type="number" id="pacote10" value="0" oninput="updatePacoteQuantidades(10, this.value);"><br>
@@ -180,27 +189,25 @@
         <p>Total: R$<span id="totalR100">0.00</span> / $<span id="totalD100">0.00</span></p>
     </div>
     <div class="panel">
-        <h2>Total de Todos os Pacotes</h2>
-        <p>Total: R$<span id="totalRPacotes">0.00</span> / $<span id="totalDPacotes">0.00</span></p>
-        <label for="login">Login:</label>
-        <input type="text" id="login"><br>
-        <label for="password">Password:</label>
-        <input type="text" id="password"><br>
-        <label for="nickname">Nickname:</label>
-        <input type="text" id="nickname"><br>
-        <label for="level">Level:</label>
-        <input type="text" id="level"><br>
-        <label for="server">Server:</label>
-        <input type="text" id="server"><br>
-        <button onclick="copyToClipboard()">Copiar Total</button>
-        <span class="instruction">Clique para copiar as informações e os totais</span>
+        <h2>Total dos Pacotes</h2>
+        <p>Total em R$: <span id="totalRPacotes">0.00</span></p>
+        <p>Total em $: <span id="totalDPacotes">0.00</span></p>
+        <p>Total com Cartão em R$: <span id="totalRPacotesCartao">0.00</span></p>
+        <p>Total com Cartão em $: <span id="totalDPacotesCartao">0.00</span></p>
     </div>
     <div class="panel">
-        <h2>Informações de Pagamento</h2>
-        <p>Pix: CELULAR 14988231270 Nome: Victoria Stefany</p>
-        <p>Mercado Pago: <a href="https://link.mercadopago.com.br/ervindanada" target="_blank">link</a> 
-        (6% mais caro se for no cartão: R$<span id="totalRPacotesCartao">0.00</span> / $<span id="totalDPacotesCartao">0.00</span>)</p>
-        <p>Binance: estrela203@hotmail.com</p>
+        <h2>Informações Adicionais</h2>
+        <label for="login">Login:</label>
+        <input type="text" id="login">
+        <label for="password">Password:</label>
+        <input type="text" id="password">
+        <label for="nickname">Nickname:</label>
+        <input type="text" id="nickname">
+        <label for="level">Level:</label>
+        <input type="text" id="level">
+        <label for="server">Server:</label>
+        <input type="text" id="server">
+        <button onclick="copyToClipboard()">Copiar Informações</button>
     </div>
 </body>
 </html>
