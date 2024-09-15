@@ -19,15 +19,16 @@
             justify-content: center;
         }
         .panel {
+            color: #ddd;
             width: 22%;
             padding: 20px;
             border: 2px solid #FF6EC7;
             border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
             margin: 20px;
             display: inline-block;
             vertical-align: top;
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(33, 33, 33, 0.9);
             position: relative;
         }
         h2 {
@@ -48,6 +49,8 @@
             cursor: pointer;
         }
         input[type="text"], input[type="number"] {
+            background-color: #444; /* Fundo escuro para os inputs */
+            color: #ddd; /* Texto claro */
             width: calc(100% - 22px);
             padding: 10px;
             margin: 5px 0;
@@ -101,39 +104,14 @@
             Object.keys(pacoteQuantidades).forEach(pacote => {
                 const subtotalR = pacoteQuantidades[pacote] * pacotePrecos[pacote] * exchangeRate;
                 const subtotalD = pacoteQuantidades[pacote] * pacotePrecos[pacote];
-                document.getElementById(totalR${pacote}).innerText = subtotalR.toFixed(2);
-                document.getElementById(totalD${pacote}).innerText = subtotalD.toFixed(2);
+                
+                document.getElementById(`totalR${pacote}`).innerText = subtotalR.toFixed(2);
+                document.getElementById(`totalD${pacote}`).innerText = subtotalD.toFixed(2);
                 totalR += subtotalR;
                 totalD += subtotalD;
             });
             document.getElementById('totalRPacotes').innerText = totalR.toFixed(2);
             document.getElementById('totalDPacotes').innerText = totalD.toFixed(2);
-        }
-
-        function copyToClipboard() {
-            const totalR = document.getElementById('totalRPacotes').innerText;
-            const totalD = document.getElementById('totalDPacotes').innerText;
-            const quantidades = Object.keys(pacoteQuantidades)
-                .filter(pacote => pacoteQuantidades[pacote] > 0)
-                .map(pacote => Pacote de $${pacote}: ${pacoteQuantidades[pacote]})
-                .join('\n');
-            const login = document.getElementById('login').value;
-            const password = document.getElementById('password').value;
-            const nickname = document.getElementById('nickname').value;
-            const level = document.getElementById('level').value;
-            const server = document.getElementById('server').value;
-
-            let additionalInfo = '';
-            if (login) additionalInfo += Login: ${login}\n;
-            if (password) additionalInfo += Password: ${password}\n;
-            if (nickname) additionalInfo += Nickname: ${nickname}\n;
-            if (level) additionalInfo += Level: ${level}\n;
-            if (server) additionalInfo += Server: ${server}\n;
-
-            const textToCopy = Total em R$: ${totalR}\nTotal em $: ${totalD}\n${quantidades}\n${additionalInfo};
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                alert('Informações copiadas para a área de transferência!');
-            });
         }
 
         function calcularTotalComCartao(total) {
@@ -146,6 +124,51 @@
             document.getElementById('totalRPacotesCartao').innerText = calcularTotalComCartao(totalRPacotes);
             document.getElementById('totalDPacotesCartao').innerText = calcularTotalComCartao(totalDPacotes);
         }
+
+        function copiarInformacoes() {
+    let login = document.getElementById('login').value;
+    let password = document.getElementById('password').value;
+    let nickname = document.getElementById('nickname').value;
+    let level = document.getElementById('level').value;
+    let server = document.getElementById('server').value;
+
+    let texto = '';
+    if (login) texto += `Login: ${login}\n`;
+    if (password) texto += `Password: ${password}\n`;
+    if (nickname) texto += `Nickname: ${nickname}\n`;
+    if (level) texto += `Level: ${level}\n`;
+    if (server) texto += `Server: ${server}\n`;
+
+    let pacotesTexto = '';
+    let totalPacotesR = 0;
+    let totalPacotesD = 0;
+
+    Object.keys(pacoteQuantidades).forEach(pacote => {
+        if (pacoteQuantidades[pacote] > 0) {
+            const subtotalR = pacoteQuantidades[pacote] * pacotePrecos[pacote] * exchangeRate;
+            const subtotalD = pacoteQuantidades[pacote] * pacotePrecos[pacote];
+            pacotesTexto += `Pacote de $${pacote}: ${pacoteQuantidades[pacote]} (Total R$${subtotalR.toFixed(2)})\n`;
+            totalPacotesR += subtotalR;
+            totalPacotesD += subtotalD;
+        }
+    });
+
+    if (pacotesTexto) {
+        texto += `\nPacotes:\n${pacotesTexto}`;
+    }
+
+    // Adiciona o total dos pacotes ao texto
+    texto += `\nTotal dos Pacotes:\nTotal em R$: ${totalPacotesR.toFixed(2)}\nTotal em $: ${totalPacotesD.toFixed(2)}`;
+
+    if (texto) {
+        navigator.clipboard.writeText(texto).then(() => {
+            alert('Informações copiadas para a área de transferência!');
+        }, () => {
+            alert('Falha ao copiar as informações.');
+        });
+    }
+}
+
 
         window.addEventListener('load', () => {
             atualizarValoresComCartao();
@@ -196,18 +219,24 @@
         <p>Total com Cartão em $: <span id="totalDPacotesCartao">0.00</span></p>
     </div>
     <div class="panel">
-        <h2>Informações Adicionais</h2>
+        <h2>Informações de Pagamento</h2>
+        <p><strong>Pix:</strong> CELULAR 14988231270 Nome: Victoria Stefany</p>
+        <p><strong>Mercado Pago:</strong> <a href="https://link.mercadopago.com.br/ervindanada" target="_blank">https://link.mercadopago.com.br/ervindanada</a> (Preço será 6% mais caro)</p>
+        <p><strong>Binance:</strong> estrela203@hotmail.com</p>
+    </div>
+    <div class="panel">
+        <h2>Informações da Conta</h2>
         <label for="login">Login:</label>
-        <input type="text" id="login">
+        <input type="text" id="login"><br>
         <label for="password">Password:</label>
-        <input type="text" id="password">
+        <input type="text" id="password"><br>
         <label for="nickname">Nickname:</label>
-        <input type="text" id="nickname">
+        <input type="text" id="nickname"><br>
         <label for="level">Level:</label>
-        <input type="text" id="level">
+        <input type="text" id="level"><br>
         <label for="server">Server:</label>
-        <input type="text" id="server">
-        <button onclick="copyToClipboard()">Copiar Total + Informações</button>
+        <input type="text" id="server"><br>
+        <button onclick="copiarInformacoes()">Copiar Informações</button>
     </div>
 </body>
 </html>
