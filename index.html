@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel de Ouro</title>
+    <title>Painel de Comissão e Pacotes</title>
     <style>
         body {
             background-image: url('https://r4.wallpaperflare.com/wallpaper/671/31/673/tv-show-star-vs-the-forces-of-evil-star-butterfly-wallpaper-a920088dc10a7dfbd63728bff031867d.jpg');
@@ -11,29 +11,25 @@
             background-repeat: no-repeat;
             background-attachment: fixed;
             font-family: 'Comic Sans MS', 'Comic Sans', cursive;
-            color: #ddd;
+            color: #333;
             margin: 0;
             padding: 0;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
         }
-        .panel, .payment-info {
+        .panel {
+		    color: #ddd; /* Texto mais claro */
             width: 22%;
             padding: 20px;
             border: 2px solid #FF6EC7;
             border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
             margin: 20px;
             display: inline-block;
             vertical-align: top;
             background-color: rgba(33, 33, 33, 0.9);
-            color: #ddd;
             position: relative;
-        }
-        .payment-info {
-            width: 80%;
-            margin: 20px;
         }
         h2 {
             font-size: 1.5em;
@@ -41,12 +37,23 @@
             text-align: center;
             color: #FF6EC7;
         }
-        input[type="number"], input[type="text"] {
+        button {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            background-color: #4B0082; /* cor roxo escuro */
+            color: white;
+            cursor: pointer;
+        }
+        input[type="text"], input[type="number"] {
+		    background-color: rgba(33, 33, 33, 0.9); /* Tema escuro */
+            color: #ddd; /* Texto mais claro */
             width: calc(100% - 22px);
             padding: 10px;
             margin: 5px 0;
-            background-color: #444;
-            color: #ddd;
             border: 2px solid #FF6EC7;
             border-radius: 5px;
         }
@@ -59,128 +66,151 @@
         p {
             margin: 10px 0;
             padding: 0;
+        }
+        .instruction {
             color: #FF6EC7;
-        }
-        button {
-            margin-top: 10px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #FF6EC7;
-            color: white;
-            cursor: pointer;
-            font-size: 1em;
-        }
-        .invisible-button {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 30px;
-            height: 30px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
+            font-size: 0.9em;
+            margin-left: 10px;
+            vertical-align: middle;
         }
     </style>
     <script>
-        let goldRateBase = 33.00;
-        let goldRateD = 5.55;
-        let listaOuroGlobal = [];
+        let exchangeRate = 5.62;
+        let pacoteQuantidades = {
+            3: 0,
+            10: 0,
+            30: 0,
+            50: 0,
+            100: 0
+        };
 
-        function updateOuroCalculations() {
-            const quantidade = parseInt(document.getElementById('quantidadeOuro').value) || 0;
-            let goldRateR = goldRateBase;
+        const pacotePrecos = {
+            3: 2.60,
+            10: 7.65,
+            30: 22.50,
+            50: 37.00,
+            100: 74.00
+        };
 
-            if (quantidade >= 10000) {
-                goldRateR = 32.00
-            }
-
-            if (quantidade >= 20000) {
-                goldRateR = 32.00
-            }
-
-            const totalR = (quantidade / 1000) * goldRateR;
-            const totalD = (quantidade / 1000) * goldRateD;
-            listaOuroGlobal = calcularListaOuro(quantidade);
-
-            document.getElementById('totalROuro').innerText = totalR.toFixed(2);
-            document.getElementById('totalDOuro').innerText = totalD.toFixed(2);
-            document.getElementById('quantidadeAnunciada').innerText = listaOuroGlobal.join(', ');
+        function updatePacoteQuantidades(pacote, quantidade) {
+            pacoteQuantidades[pacote] = parseInt(quantidade) || 0;
+            updatePacoteTotals();
+            atualizarValoresComCartao();
         }
 
-        function calcularListaOuro(quantidade) {
-            const quantidadeAnunciada = Math.floor(quantidade + (quantidade * 5.3 / 100));
-            if (quantidade <= 2500) {
-                return [quantidadeAnunciada];
-            } else if (quantidade <= 5000) {
-                return dividirEmPartes(quantidadeAnunciada, 2);
-            } else if (quantidade <= 7500) {
-                return dividirEmPartes(quantidadeAnunciada, 3);
-            } else if (quantidade <= 10000) {
-                return dividirEmPartes(quantidadeAnunciada, 4);
-            } else {
-                return [quantidadeAnunciada];
-            }
+        function updatePacoteTotals() {
+            let totalR = 0;
+            let totalD = 0;
+            Object.keys(pacoteQuantidades).forEach(pacote => {
+                const subtotalR = pacoteQuantidades[pacote] * pacotePrecos[pacote] * exchangeRate;
+                const subtotalD = pacoteQuantidades[pacote] * pacotePrecos[pacote];
+                document.getElementById(totalR${pacote}).innerText = subtotalR.toFixed(2);
+                document.getElementById(totalD${pacote}).innerText = subtotalD.toFixed(2);
+                totalR += subtotalR;
+                totalD += subtotalD;
+            });
+            document.getElementById('totalRPacotes').innerText = totalR.toFixed(2);
+            document.getElementById('totalDPacotes').innerText = totalD.toFixed(2);
         }
 
-        function dividirEmPartes(total, partes) {
-            const min = Math.floor(total / (partes + 1));
-            const max = Math.ceil(total / partes);
-            let resultado = [];
-            let soma = 0;
+        function copyToClipboard() {
+            const totalR = document.getElementById('totalRPacotes').innerText;
+            const totalD = document.getElementById('totalDPacotes').innerText;
+            const quantidades = Object.keys(pacoteQuantidades)
+                .filter(pacote => pacoteQuantidades[pacote] > 0)
+                .map(pacote => Pacote de $${pacote}: ${pacoteQuantidades[pacote]})
+                .join('\n');
+            const login = document.getElementById('login').value;
+            const password = document.getElementById('password').value;
+            const nickname = document.getElementById('nickname').value;
+            const level = document.getElementById('level').value;
+            const server = document.getElementById('server').value;
 
-            for (let i = 0; i < partes - 1; i++) {
-                const valor = Math.floor(Math.random() * (max - min + 1)) + min;
-                resultado.push(valor);
-                soma += valor;
-            }
+            let additionalInfo = '';
+            if (login) additionalInfo += Login: ${login}\n;
+            if (password) additionalInfo += Password: ${password}\n;
+            if (nickname) additionalInfo += Nickname: ${nickname}\n;
+            if (level) additionalInfo += Level: ${level}\n;
+            if (server) additionalInfo += Server: ${server}\n;
 
-            resultado.push(total - soma);
-            return resultado;
+            const textToCopy = Total em R$: ${totalR}\nTotal em $: ${totalD}\n${quantidades}\n${additionalInfo};
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert('Informações copiadas para a área de transferência!');
+            });
         }
 
-        function copyTotalsToClipboard() {
-            const totalR = document.getElementById('totalROuro').innerText;
-            const totalD = document.getElementById('totalDOuro').innerText;
-            const quantidadeAnunciada = document.getElementById('quantidadeAnunciada').innerText;
-            const servidor = document.getElementById('servidor').value;
-            const textToCopy = `Servidor: ${servidor}\nTotal em R$: ${totalR}\nTotal em $: ${totalD}\nQuantidade de Ouro a anunciar: ${quantidadeAnunciada}`;
-            navigator.clipboard.writeText(textToCopy)
-                .then(() => alert('Totais copiados para a área de transferência'))
-                .catch(err => alert('Erro ao copiar texto: ', err));
+        function calcularTotalComCartao(total) {
+            return (total * 1.06).toFixed(2);
         }
 
-        function copyMessageToClipboard() {
-            const textToCopy = `Ai você me encaminha o comprovante aqui na mensagem. Pois eu sou a irmã da Daoshi e não tô com acesso a conta ^^ 🌺~`;
-            navigator.clipboard.writeText(textToCopy)
-                .then(() => alert('Mensagem copiada para a área de transferência'))
-                .catch(err => alert('Erro ao copiar texto: ', err));
+        function atualizarValoresComCartao() {
+            const totalRPacotes = parseFloat(document.getElementById('totalRPacotes').innerText);
+            const totalDPacotes = parseFloat(document.getElementById('totalDPacotes').innerText);
+            document.getElementById('totalRPacotesCartao').innerText = calcularTotalComCartao(totalRPacotes);
+            document.getElementById('totalDPacotesCartao').innerText = calcularTotalComCartao(totalDPacotes);
         }
 
-        window.onload = function() {
-            document.getElementById('quantidadeOuro').value = 0;
-            updateOuroCalculations();
-        }
+        window.addEventListener('load', () => {
+            atualizarValoresComCartao();
+        });
     </script>
 </head>
 <body>
-    <button class="invisible-button" onclick="copyMessageToClipboard()"></button>
     <div class="panel">
-        <h2>Ouro</h2>
-        <label for="quantidadeOuro">Quantidade de Ouro:</label>
-        <input type="number" id="quantidadeOuro" value="0" oninput="updateOuroCalculations()"><br>
-        <label for="servidor">Servidor:</label>
-        <input type="text" id="servidor" placeholder="Insira o servidor"><br>
-        <p>Total em R$ = "R$<span id="totalROuro">0.00</span>"</p>
-        <p>Total em $ = "$<span id="totalDOuro">0.00</span>"</p>
-        <p>Quantidade de Ouro a anunciar: <span id="quantidadeAnunciada">0</span></p>
-        <button onclick="copyTotalsToClipboard()">Copiar Totais</button>
+        <h2>Pacote de $3</h2>
+        <label for="pacote3">Quantidade:</label>
+        <input type="number" id="pacote3" value="0" oninput="updatePacoteQuantidades(3, this.value);"><br>
+        <p>Preço com desconto: $2.60</p>
+        <p>Total: R$<span id="totalR3">0.00</span> / $<span id="totalD3">0.00</span></p>
     </div>
-    <div class="payment-info">
-        <h2>Informações de Pagamento</h2>
-        <p><strong>Pix:</strong> CELULAR 14988231270 Nome: Victoria Stefany</p>
-        <p><strong>Mercado Pago:</strong> <a href="https://link.mercadopago.com.br/ervindanada">https://link.mercadopago.com.br/ervindanada</a> preço será 6% mais caro.</p>
-        <p><strong>Binance:</strong> estrela203@hotmail.com</p>
+    <div class="panel">
+        <h2>Pacote de $10</h2>
+        <label for="pacote10">Quantidade:</label>
+        <input type="number" id="pacote10" value="0" oninput="updatePacoteQuantidades(10, this.value);"><br>
+        <p>Preço com desconto: $7.65</p>
+        <p>Total: R$<span id="totalR10">0.00</span> / $<span id="totalD10">0.00</span></p>
+    </div>
+    <div class="panel">
+        <h2>Pacote de $30</h2>
+        <label for="pacote30">Quantidade:</label>
+        <input type="number" id="pacote30" value="0" oninput="updatePacoteQuantidades(30, this.value);"><br>
+        <p>Preço com desconto: $22.50</p>
+        <p>Total: R$<span id="totalR30">0.00</span> / $<span id="totalD30">0.00</span></p>
+    </div>
+    <div class="panel">
+        <h2>Pacote de $50</h2>
+        <label for="pacote50">Quantidade:</label>
+        <input type="number" id="pacote50" value="0" oninput="updatePacoteQuantidades(50, this.value);"><br>
+        <p>Preço com desconto: $37.00</p>
+        <p>Total: R$<span id="totalR50">0.00</span> / $<span id="totalD50">0.00</span></p>
+    </div>
+    <div class="panel">
+        <h2>Pacote de $100</h2>
+        <label for="pacote100">Quantidade:</label>
+        <input type="number" id="pacote100" value="0" oninput="updatePacoteQuantidades(100, this.value);"><br>
+        <p>Preço com desconto: $74.00</p>
+        <p>Total: R$<span id="totalR100">0.00</span> / $<span id="totalD100">0.00</span></p>
+    </div>
+    <div class="panel">
+        <h2>Total dos Pacotes</h2>
+        <p>Total em R$: <span id="totalRPacotes">0.00</span></p>
+        <p>Total em $: <span id="totalDPacotes">0.00</span></p>
+        <p>Total com Cartão em R$: <span id="totalRPacotesCartao">0.00</span></p>
+        <p>Total com Cartão em $: <span id="totalDPacotesCartao">0.00</span></p>
+    </div>
+    <div class="panel">
+        <h2>Informações Adicionais</h2>
+        <label for="login">Login:</label>
+        <input type="text" id="login">
+        <label for="password">Password:</label>
+        <input type="text" id="password">
+        <label for="nickname">Nickname:</label>
+        <input type="text" id="nickname">
+        <label for="level">Level:</label>
+        <input type="text" id="level">
+        <label for="server">Server:</label>
+        <input type="text" id="server">
+        <button onclick="copyToClipboard()">Copiar Total + Informações</button>
     </div>
 </body>
 </html>
