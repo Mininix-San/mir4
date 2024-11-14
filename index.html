@@ -3,75 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel de Comissão e Pacotes</title>
+    <title>Painel de Ouro com Efeito Pisca-Pisca</title>
     <style>
         body {
-            background-image: url('https://lh3.googleusercontent.com/d/17A_uHtQ0tDlAVtXdpNizw-Q5L5oLSCmY');
+            background-image: url('https://lh3.googleusercontent.com/d/1aZkNtHRKeVqDytyKIFauJ9TqPyFSAsv3');
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
             font-family: 'Comic Sans MS', 'Comic Sans', cursive;
-            color: #333;
+            color: #ddd;
             margin: 0;
             padding: 0;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
+            overflow: hidden; /* Para evitar barras de rolagem */
         }
-        .panel {
-            color: #ddd;
+        .panel, .payment-info {
             width: 22%;
             padding: 20px;
-            border: 2px solid #f2ff00;
+            border: 2px solid #00ff0c;
             border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
             margin: 20px;
             display: inline-block;
             vertical-align: top;
             background-color: rgba(33, 33, 33, 0.9);
+            color: #ddd;
             position: relative;
+
+        }
+        .payment-info {
+            width: 80%;
+            margin: 20px;
         }
         h2 {
             font-size: 1.5em;
             margin-bottom: 10px;
             text-align: center;
-            color: #ff5500;
+            color: #ecff00;
         }
-        button {
-            display: block;
-            margin: 10px 0;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            font-size: 1em;
-            background-color: #0ba118; /* cor roxo escuro */
-            color: white;
-            cursor: pointer;
-        }
-        input[type="text"], input[type="number"] {
-            background-color: #444; /* Fundo escuro para os inputs */
-            color: #ddd; /* Texto claro */
+        input[type="number"], input[type="text"] {
             width: calc(100% - 22px);
             padding: 10px;
             margin: 5px 0;
-            border: 2px solid #f2ff00;
+            background-color: #444;
+            color: #ddd;
+            border: 2px solid #00ff0c;
             border-radius: 5px;
+	
         }
         label {
             font-weight: bold;
             margin-top: 10px;
             display: block;
-            color: #ff5500;
+            color: #ecff00;
         }
         p {
             margin: 10px 0;
             padding: 0;
+            color: #ecff00;
         }
-        .instruction {
-            color: #ff5500;
-            font-size: 0.9em;
-            margin-left: 10px;
-            vertical-align: middle;
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff0000;
+            color: white;
+            cursor: pointer;
+            font-size: 1em;
+			
+        }
+        .invisible-button {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 30px;
+            height: 30px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Estilos para flocos de neve */
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            pointer-events: none; /* Para que não interfira com cliques */
+        }
+
+        @keyframes blink {
+            0% { border-color: green; }
+            25% { border-color: blue; }
+            50% { border-color: red; }
+            75% { border-color: orange; }
+            100% { border-color: green; }
         }
     </style>
     <script>
@@ -173,7 +203,41 @@
         window.addEventListener('load', () => {
             atualizarValoresComCartao();
         });
+		function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.style.width = Math.random() * 10 + 5 + 'px'; // Tamanho aleatório
+            snowflake.style.height = snowflake.style.width; // Mantém forma circular
+            snowflake.style.left = Math.random() * 100 + 'vw'; // Posição aleatória na horizontal
+            document.body.appendChild(snowflake);
+
+            // Animação de queda
+            const fallDuration = Math.random() * 3 + 2; // Dura entre 2 e 5 segundos
+            snowflake.style.animation = `fall ${fallDuration}s linear forwards`;
+
+            // Remove o floco de neve após a animação
+            snowflake.addEventListener('animationend', () => {
+                snowflake.remove();
+            });
+        }
+
+        // Chama a função para criar flocos de neve a cada 300ms
+        setInterval(createSnowflake, 300);
+
+        window.onload = function() {
+            document.getElementById('quantidadeOuro').value = 0;
+            updateOuroCalculations();
+        }
+		
     </script>
+	<style>
+        @keyframes fall {
+            to {
+                transform: translateY(100vh); /* Move para o fundo da tela */
+            }
+        }
+    </style>
+	
 </head>
 <body>
     <div class="panel">
