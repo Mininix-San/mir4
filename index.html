@@ -83,7 +83,7 @@
         }
     </style>
     <script>
-        let exchangeRate = 6.19;
+        let exchangeRate = 6.16;
         let pacoteQuantidades = {
             1: 0,
             3: 0,
@@ -101,13 +101,13 @@
             1: 0.9,
             3: 2.65,
             5: 4.2,
-            10: 7.3,
-            11: 7.3, // Preço com desconto do pacote de $10 especial
-            30: 21.90,
+            10: 7.5,
+            11: 7.5, // Preço com desconto do pacote de $10 especial
+            30: 22.50,
 			31: 21.90, // Preço com desconto do pacote de $30 especial
-            50: 36.00,
-            51: 36.00, // Preço com desconto do pacote de $50 especial
-            100: 72.00
+            50: 37.00,
+            51: 37.00, // Preço com desconto do pacote de $50 especial
+            100: 74.00
         };
 
         function updatePacoteQuantidades(pacote, quantidade) {
@@ -259,7 +259,7 @@
         <input type="number" id="pacote30" value="0" oninput="updatePacoteQuantidades(30, this.value);"><br>
 		<label for="pacote35">Quantidade de $30 Especial:</label>
         <input type="number" id="pacote30" value="0" oninput="updatePacoteQuantidades(31, this.value);"><br>
-        <p>Preço com desconto: $7.30, $7.30, $21.90</p>
+        <p>Preço com desconto: $7.50, $7.50, $22.50</p>
         <p>Total: R$<span id="totalR10">0.00</span> / $<span id="totalD10">0.00</span></p>
     </div>
     <div class="panel">
@@ -270,7 +270,7 @@
         <input type="number" id="pacote51" value="0" oninput="updatePacoteQuantidades(51, this.value);"><br>
         <label for="pacote100">Quantidade de $100:</label>
         <input type="number" id="pacote100" value="0" oninput="updatePacoteQuantidades(100, this.value);"><br>
-        <p>Preço com desconto: $36.00, $36.00, $72.00</p>
+        <p>Preço com desconto: $37.00, $37.00, $74.00</p>
         <p>Total: R$<span id="totalR50">0.00</span> / $<span id="totalD50">0.00</span></p>
     </div>
 
