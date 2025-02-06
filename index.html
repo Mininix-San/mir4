@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-width=device-width, initial-scale=1.0">
-    <title>Painel de Ouro com Efeito Pisca-Pisca</title>
+    <title>Loja Daoshi</title>
+	<link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1lLnjQ3NYt6Bd6WapJ2p0EjzfQJIbB-es">
     <style>
         body {
-            background-image: url('https://lh3.googleusercontent.com/d/1aZkNtHRKeVqDytyKIFauJ9TqPyFSAsv3');
+            background-image: url('https://lh3.googleusercontent.com/d/1wdPn1l98dwN2wBfCGBeAC0MKtNed1in2');
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -19,17 +20,17 @@
             justify-content: center;
 			 
         }
-        .panel, .payment-info {
+        .panel {
             width: 22%;
             padding: 20px;
-            border: 2px solid #00ff0c;
+            border: 3px solid #ff7b00; /* Laranja */
             border-radius: 15px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
             margin: 20px;
             display: inline-block;
-            vertical-align: top;
-            background-color: rgba(33, 33, 33, 0.9);
-            color: #ddd;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            color: #fff;
             position: relative;
         }
         .payment-info {
@@ -72,14 +73,31 @@
             cursor: pointer;
             font-size: 1em;
         }
-        /* Estilos para flocos de neve */
-        .snowflake {
+        /* Estilos para flores */
+        .flower {
             position: absolute;
-            top: -10px;
-            background: white;
-            border-radius: 50%;
-            opacity: 0.8;
-            pointer-events: none; /* Para que não interfira com cliques */
+            top: -50px;
+            font-size: 24px;
+            pointer-events: none;
+            animation: fall linear infinite, fadeOut linear infinite;
+        }
+
+        @keyframes fall {
+            from {
+                transform: translateY(0px) rotate(0deg);
+            }
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
         }
     </style>
     <script>
@@ -208,26 +226,23 @@
             atualizarValoresComCartao();
         });
 
-        function createSnowflake() {
-            const snowflake = document.createElement('div');
-            snowflake.classList.add('snowflake');
-            snowflake.style.width = Math.random() * 10 + 5 + 'px'; // Tamanho aleatório
-            snowflake.style.height = snowflake.style.width; // Mantém forma circular
-            snowflake.style.left = Math.random() * 100 + 'vw'; // Posição aleatória na horizontal
-            document.body.appendChild(snowflake);
+        function createFlower() {
+            const flowers = ['🌸', '🌺', '🌻', '🌼', '💐'];
+            const flower = document.createElement('div');
+            flower.classList.add('flower');
+            flower.innerText = flowers[Math.floor(Math.random() * flowers.length)];
+            flower.style.left = Math.random() * 100 + 'vw';
+			flower.style.transform = `rotate(${Math.random() * 360}deg)`;
+            
+            let duration = Math.random() * 5 + 3; // Tempo de queda entre 3s e 8s
+            flower.style.animationDuration = duration + 's, ' + duration + 's';
 
-            // Animação de queda
-            const fallDuration = Math.random() * 3 + 2; // Dura entre 2 e 5 segundos
-            snowflake.style.animation = `fall ${fallDuration}s linear forwards`;
+            document.body.appendChild(flower);
 
-            // Remove o floco de neve após a animação
-            snowflake.addEventListener('animationend', () => {
-                snowflake.remove();
-            });
+            setTimeout(() => flower.remove(), duration * 1000);
         }
 
-        // Chama a função para criar flocos de neve a cada 300ms
-        setInterval(createSnowflake, 300);
+        setInterval(createFlower, 1000); // Menos flores caindo por segundo
     </script>
     <style>
         @keyframes fall {
@@ -236,6 +251,7 @@
             }
         }
     </style>
+	
 </head>
 <body>
     <div class="panel">
