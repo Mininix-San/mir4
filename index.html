@@ -1,323 +1,273 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-width=device-width, initial-scale=1.0">
-    <title>Loja Daoshi Top Up</title>
-	<link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1lLnjQ3NYt6Bd6WapJ2p0EjzfQJIbB-es">
-    <style>
-        body {
-            background-image: url('https://lh3.googleusercontent.com/d/1wdPn1l98dwN2wBfCGBeAC0MKtNed1in2');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            font-family: 'Arial', 'Arial', Arial;
-            color: #ddd;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-			 
-        }
-        .panel {
-            width: 22%;
-            padding: 20px;
-            border: 3px solid #ff7b00; /* Laranja */
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
-            margin: 20px;
-            display: inline-block;
-            background-color: rgba(33, 33, 33, 0.9);
-            backdrop-filter: blur(5px);
-            color: #fff;
-            position: relative;
-        }
-        .payment-info {
-            width: 80%;
-            margin: 20px;
-        }
-        h2, h3 {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-            text-align: center;
-            color: #ecff00;
-        }
-        input[type="number"], input[type="text"] {
-            width: calc(100% - 22px);
-            padding: 10px;
-            margin: 5px 0;
-            background-color: #444;
-            color: #ddd;
-            border: 2px solid #00ff0c;
-            border-radius: 5px;
-        }
-        label {
-            font-weight: bold;
-            margin-top: 10px;
-            display: block;
-            color: #ecff00;
-        }
-        p {
-            margin: 10px 0;
-            padding: 0;
-            color: #ecff00;
-        }
-        button {
-            margin-top: 10px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #ff0000;
-            color: white;
-            cursor: pointer;
-            font-size: 1em;
-        }
-        /* Estilos para flores */
-        .flower {
-            position: absolute;
-            top: -50px;
-            font-size: 24px;
-            pointer-events: none;
-            animation: fall linear infinite, fadeOut linear infinite;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-width=device-width, initial-scale=1.0">
+  <title>Loja Daoshi Top Up</title>
+  <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1lLnjQ3NYt6Bd6WapJ2p0EjzfQJIbB-es">
+  <style>
+    body {
+      background-image: url('https://lh3.googleusercontent.com/d/13mcKYGZFBEVkIJ2FBCzm1tDKyEXBnuuO');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      font-family: 'Arial', sans-serif;
+      color: #ddd;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .panel {
+      width: 22%;
+      padding: 20px;
+      border: 1px solid #fff;  /* Borda branca */
+      border-radius: 15px;
+      margin: 20px;
+      display: inline-block;
+      vertical-align: top;
+      background-color: rgba(15, 15, 15, 0.6); /* Fundo escuro translúcido */
+      color: #ffffff;
+      box-sizing: border-box;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+      /* Removido o blur */
+    }
+    .payment-info {
+      width: 80%;
+      margin: 20px;
+    }
+    h2, h3 {
+      font-size: 1.5em;
+      margin-bottom: 10px;
+      text-align: center;
+      color: #fff; /* Títulos em branco */
+    }
+    input[type="number"], input[type="text"] {
+      width: calc(100% - 22px);
+      padding: 10px;
+      margin: 5px 0;
+      background-color: #fff; /* Fundo branco */
+      color: #000;  /* Texto preto para melhor contraste */
+      border: 2px solid black; /* Borda preta */
+      box-shadow: 0 0 0 2px white; /* Contorno branco como "bordado" */
+      border-radius: 5px;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+      color: #fff; /* Labels em branco */
+    }
+    p {
+      margin: 10px 0;
+      padding: 0;
+      color: #fff; /* Parágrafos em branco */
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #ff0000;
+      color: white;
+      cursor: pointer;
+      font-size: 1em;
+    }
+   
+    }
+  </style>
+  <script>
+    let exchangeRate = 6.00;
+    let pacoteQuantidades = {
+      1: 0,
+      3: 0,
+      5: 0,
+      10: 0,
+      11: 0, // Novo pacote de $10 especial
+      30: 0,
+      31: 0, // Novo pacote de $30 especial
+      50: 0,
+      51: 0, // Novo pacote de $50 especial
+      100: 0
+    };
 
-        @keyframes fall {
-            from {
-                transform: translateY(0px) rotate(0deg);
-            }
-            to {
-                transform: translateY(100vh) rotate(360deg);
-            }
-        }
+    const pacotePrecos = {
+      1: 0.9,
+      3: 2.65,
+      5: 4.2,
+      10: 7.5,
+      11: 8.5, // Preço com desconto do pacote de $10 especial
+      30: 22.00,
+      31: 22.00, // Preço com desconto do pacote de $30 especial
+      50: 37.00,
+      51: 38.00, // Preço com desconto do pacote de $50 especial
+      100: 74.00
+    };
 
-        @keyframes fadeOut {
-            from {
-                opacity: 1;
-            }
-            to {
-                opacity: 0;
-            }
-        }
-    </style>
-    <script>
-        let exchangeRate = 6.12;
-        let pacoteQuantidades = {
-            1: 0,
-            3: 0,
-            5: 0,
-            10: 0,
-            11: 0, // Novo pacote de $10 especial
-            30: 0,
-			31: 0, //Novo pacote de $30 especial
-            50: 0,
-            51: 0, // Novo pacote de $50 especial
-            100: 0
-        };
+    function updatePacoteQuantidades(pacote, quantidade) {
+      pacoteQuantidades[pacote] = parseInt(quantidade) || 0;
+      updatePacoteTotals();
+      atualizarValoresComCartao();
+    }
 
-        const pacotePrecos = {
-            1: 0.9,
-            3: 2.65,
-            5: 4.2,
-            10: 7.5,
-            11: 8.5, // Preço com desconto do pacote de $10 especial
-            30: 22.00,
-			31: 22.00, // Preço com desconto do pacote de $30 especial
-            50: 37.00,
-            51: 38.00, // Preço com desconto do pacote de $50 especial
-            100: 74.00
-        };
+    function updatePacoteTotals() {
+      let totalR = 0;
+      let totalD = 0;
 
-        function updatePacoteQuantidades(pacote, quantidade) {
-            pacoteQuantidades[pacote] = parseInt(quantidade) || 0;
-            updatePacoteTotals();
-            atualizarValoresComCartao();
-        }
+      // Cálculo dos totais para pacotes unificados
+      const pacotesUnificados = [
+        [1, 3, 5], // Pacotes de $1, $3 e $5
+        [10, 11, 30, 31], // Pacotes de $10, $10 especial, $30 e $30 especial
+        [50, 51, 100] // Pacotes de $50, $50 especial e $100
+      ];
 
-        function updatePacoteTotals() {
-            let totalR = 0;
-            let totalD = 0;
+      pacotesUnificados.forEach(grupo => {
+        let subtotalR = 0;
+        let subtotalD = 0;
 
-            // Cálculo dos totais para pacotes unificados
-            const pacotesUnificados = [
-                [1, 3, 5], // Pacotes de $1, $3 e $5
-                [10, 11, 30, 31], // Pacotes de $10, $10 especial, $30 e $30 especial
-                [50, 51, 100] // Pacotes de $50, $50 especial e $100
-            ];
-
-            pacotesUnificados.forEach(grupo => {
-                let subtotalR = 0;
-                let subtotalD = 0;
-
-                grupo.forEach(pacote => {
-                    const quantidade = pacoteQuantidades[pacote];
-                    const preco = pacotePrecos[pacote];
-                    subtotalR += quantidade * preco * exchangeRate;
-                    subtotalD += quantidade * preco;
-                });
-
-                totalR += subtotalR;
-                totalD += subtotalD;
-
-                // Atualiza os totais de cada grupo
-                document.getElementById(`totalR${grupo[0]}`).innerText = subtotalR.toFixed(2);
-                document.getElementById(`totalD${grupo[0]}`).innerText = subtotalD.toFixed(2);
-            });
-
-            document.getElementById('totalRPacotes').innerText = totalR.toFixed(2);
-            document.getElementById('totalDPacotes').innerText = totalD.toFixed(2);
-        }
-
-        function calcularTotalComCartao(total) {
-            return (total * 1.06).toFixed(2);
-        }
-
-        function atualizarValoresComCartao() {
-            const totalRPacotes = parseFloat(document.getElementById('totalRPacotes').innerText);
-            const totalDPacotes = parseFloat(document.getElementById('totalDPacotes').innerText);
-            document.getElementById('totalRPacotesCartao').innerText = calcularTotalComCartao(totalRPacotes);
-            document.getElementById('totalDPacotesCartao').innerText = calcularTotalComCartao(totalDPacotes);
-        }
-
-        function copiarInformacoes() {
-            let login = document.getElementById('login').value;
-            let password = document.getElementById('password').value;
-            let nickname = document.getElementById('nickname').value;
-            let level = document.getElementById('level').value;
-            let server = document.getElementById('server').value;
-
-            let texto = '';
-            if (login) texto += `Login: ${login}\n`;
-            if (password) texto += `Password: ${password}\n`;
-            if (nickname) texto += `Nickname: ${nickname}\n`;
-            if (level) texto += `Level: ${level}\n`;
-            if (server) texto += `Server: ${server}\n`;
-
-            let pacotesTexto = '';
-            let totalPacotesR = 0;
-            let totalPacotesD = 0;
-
-            Object.keys(pacoteQuantidades).forEach(pacote => {
-                if (pacoteQuantidades[pacote] > 0) {
-                    const subtotalR = pacoteQuantidades[pacote] * pacotePrecos[pacote] * exchangeRate;
-                    const subtotalD = pacoteQuantidades[pacote] * pacotePrecos[pacote];
-                    pacotesTexto += `Pacote de $${pacote}: ${pacoteQuantidades[pacote]} (Total R$${subtotalR.toFixed(2)})\n`;
-                    totalPacotesR += subtotalR;
-                    totalPacotesD += subtotalD;
-                }
-            });
-
-            if (pacotesTexto) {
-                texto += `\nPacotes:\n${pacotesTexto}`;
-            }
-
-            texto += `\nTotal dos Pacotes:\nTotal em R$: ${totalPacotesR.toFixed(2)}\nTotal em $: ${totalPacotesD.toFixed(2)}`;
-
-            if (texto) {
-                navigator.clipboard.writeText(texto).then(() => {
-                    alert('Informações copiadas para a área de transferência!');
-                }, () => {
-                    alert('Falha ao copiar as informações.');
-                });
-            }
-        }
-
-        window.addEventListener('load', () => {
-            atualizarValoresComCartao();
+        grupo.forEach(pacote => {
+          const quantidade = pacoteQuantidades[pacote];
+          const preco = pacotePrecos[pacote];
+          subtotalR += quantidade * preco * exchangeRate;
+          subtotalD += quantidade * preco;
         });
 
-        function createFlower() {
-            const flowers = ['🌸', '🌺', '🌻', '🌼', '💐'];
-            const flower = document.createElement('div');
-            flower.classList.add('flower');
-            flower.innerText = flowers[Math.floor(Math.random() * flowers.length)];
-            flower.style.left = Math.random() * 100 + 'vw';
-			flower.style.transform = `rotate(${Math.random() * 360}deg)`;
-            
-            let duration = Math.random() * 5 + 3; // Tempo de queda entre 3s e 8s
-            flower.style.animationDuration = duration + 's, ' + duration + 's';
+        totalR += subtotalR;
+        totalD += subtotalD;
 
-            document.body.appendChild(flower);
+        // Atualiza os totais de cada grupo
+        document.getElementById(`totalR${grupo[0]}`).innerText = subtotalR.toFixed(2);
+        document.getElementById(`totalD${grupo[0]}`).innerText = subtotalD.toFixed(2);
+      });
 
-            setTimeout(() => flower.remove(), duration * 1000);
+      document.getElementById('totalRPacotes').innerText = totalR.toFixed(2);
+      document.getElementById('totalDPacotes').innerText = totalD.toFixed(2);
+    }
+
+    function calcularTotalComCartao(total) {
+      return (total * 1.06).toFixed(2);
+    }
+
+    function atualizarValoresComCartao() {
+      const totalRPacotes = parseFloat(document.getElementById('totalRPacotes').innerText);
+      const totalDPacotes = parseFloat(document.getElementById('totalDPacotes').innerText);
+      document.getElementById('totalRPacotesCartao').innerText = calcularTotalComCartao(totalRPacotes);
+      document.getElementById('totalDPacotesCartao').innerText = calcularTotalComCartao(totalDPacotes);
+    }
+
+    function copiarInformacoes() {
+      let login = document.getElementById('login').value;
+      let password = document.getElementById('password').value;
+      let nickname = document.getElementById('nickname').value;
+      let level = document.getElementById('level').value;
+      let server = document.getElementById('server').value;
+
+      let texto = '';
+      if (login) texto += `Login: ${login}\n`;
+      if (password) texto += `Password: ${password}\n`;
+      if (nickname) texto += `Nickname: ${nickname}\n`;
+      if (level) texto += `Level: ${level}\n`;
+      if (server) texto += `Server: ${server}\n`;
+
+      let pacotesTexto = '';
+      let totalPacotesR = 0;
+      let totalPacotesD = 0;
+
+      Object.keys(pacoteQuantidades).forEach(pacote => {
+        if (pacoteQuantidades[pacote] > 0) {
+          const subtotalR = pacoteQuantidades[pacote] * pacotePrecos[pacote] * exchangeRate;
+          const subtotalD = pacoteQuantidades[pacote] * pacotePrecos[pacote];
+          pacotesTexto += `Pacote de $${pacote}: ${pacoteQuantidades[pacote]} (Total R$${subtotalR.toFixed(2)})\n`;
+          totalPacotesR += subtotalR;
+          totalPacotesD += subtotalD;
         }
+      });
 
-        setInterval(createFlower, 1000); // Menos flores caindo por segundo
-    </script>
-    <style>
-        @keyframes fall {
-            to {
-                transform: translateY(100vh); /* Move para o fundo da tela */
-            }
-        }
-    </style>
-	
+      if (pacotesTexto) {
+        texto += `\nPacotes:\n${pacotesTexto}`;
+      }
+
+      texto += `\nTotal dos Pacotes:\nTotal em R$: ${totalPacotesR.toFixed(2)}\nTotal em $: ${totalPacotesD.toFixed(2)}`;
+
+      if (texto) {
+        navigator.clipboard.writeText(texto).then(() => {
+          alert('Informações copiadas para a área de transferência!');
+        }, () => {
+          alert('Falha ao copiar as informações.');
+        });
+      }
+    }
+
+    window.addEventListener('load', () => {
+      atualizarValoresComCartao();
+    });
+
+    
+
+    
+  </script>
+  <style>
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="panel">
-        <h2>Pacotes de $1, $3 e $5</h2>
-        <label for="pacote1">Quantidade de $1:</label>
-        <input type="number" id="pacote1" value="0" oninput="updatePacoteQuantidades(1, this.value);"><br>
-        <label for="pacote3">Quantidade de $3:</label>
-        <input type="number" id="pacote3" value="0" oninput="updatePacoteQuantidades(3, this.value);"><br>
-        <label for="pacote5">Quantidade de $5:</label>
-        <input type="number" id="pacote5" value="0" oninput="updatePacoteQuantidades(5, this.value);"><br>
-        <p>Preço com desconto: $0.91, $2.65, $4.20</p>
-        <p>Total: R$<span id="totalR1">0.00</span> / $<span id="totalD1">0.00</span></p>
-    </div>
-    <div class="panel">
-        <h2>Pacotes de $10, $10 Especial, $30 e 30$ Especial</h2>
-        <label for="pacote10">Quantidade de $10:</label>
-        <input type="number" id="pacote10" value="0" oninput="updatePacoteQuantidades(10, this.value);"><br>
-        <label for="pacote11">Quantidade de $10 Especial:</label>
-        <input type="number" id="pacote11" value="0" oninput="updatePacoteQuantidades(11, this.value);"><br>
-        <label for="pacote30">Quantidade de $30:</label>
-        <input type="number" id="pacote30" value="0" oninput="updatePacoteQuantidades(30, this.value);"><br>
-		<label for="pacote35">Quantidade de $30 Especial:</label>
-        <input type="number" id="pacote30" value="0" oninput="updatePacoteQuantidades(31, this.value);"><br>
-        <p>Preço com desconto: $7.30, $7.30, $21.85</p>
-        <p>Total: R$<span id="totalR10">0.00</span> / $<span id="totalD10">0.00</span></p>
-    </div>
-    <div class="panel">
-        <h2>Pacotes de $50, $50 Especial e $100</h2>
-        <label for="pacote50">Quantidade de $50:</label>
-        <input type="number" id="pacote50" value="0" oninput="updatePacoteQuantidades(50, this.value);"><br>
-        <label for="pacote51">Quantidade de $50 Especial:</label>
-        <input type="number" id="pacote51" value="0" oninput="updatePacoteQuantidades(51, this.value);"><br>
-        <label for="pacote100">Quantidade de $100:</label>
-        <input type="number" id="pacote100" value="0" oninput="updatePacoteQuantidades(100, this.value);"><br>
-        <p>Preço com desconto: $37.00, $37.00, $72.50</p>
-        <p>Total: R$<span id="totalR50">0.00</span> / $<span id="totalD50">0.00</span></p>
-    </div>
-
-    <!-- Seção de Login -->
-    <div class="panel">
-        <h2>Login e Informações</h2>
-        <label for="login">Login:</label>
-        <input type="text" id="login"><br>
-        <label for="password">Password:</label>
-        <input type="text" id="password"><br>
-        <label for="nickname">Nickname:</label>
-        <input type="text" id="nickname"><br>
-        <label for="level">Level:</label>
-        <input type="text" id="level"><br>
-        <label for="server">Server:</label>
-        <input type="text" id="server"><br>
-    </div>
-
-    <!-- Seção Total -->
- <div class="panel">
-        <h2>Total dos pacotes</h2>
-        <p>Total de Pacotes: R$<span id="totalRPacotes">0.00</span> / $<span id="totalDPacotes">0.00</span></p>
-        <button onclick="copiarInformacoes()">Copiar total + login</button>
-    </div>
-
-    <<div class="panel">
+  <div class="panel">
+    <h2>Pacotes de $1, $3 e $5</h2>
+    <label for="pacote1">Quantidade de $1:</label>
+    <input type="number" id="pacote1" value="0" oninput="updatePacoteQuantidades(1, this.value);"><br>
+    <label for="pacote3">Quantidade de $3:</label>
+    <input type="number" id="pacote3" value="0" oninput="updatePacoteQuantidades(3, this.value);"><br>
+    <label for="pacote5">Quantidade de $5:</label>
+    <input type="number" id="pacote5" value="0" oninput="updatePacoteQuantidades(5, this.value);"><br>
+    <p>Preço com desconto: $0.91, $2.65, $4.20</p>
+    <p>Total: R$<span id="totalR1">0.00</span> / $<span id="totalD1">0.00</span></p>
+  </div>
+  <div class="panel">
+    <h2>Pacotes de $10, $10 Especial, $30 e $30 Especial</h2>
+    <label for="pacote10">Quantidade de $10:</label>
+    <input type="number" id="pacote10" value="0" oninput="updatePacoteQuantidades(10, this.value);"><br>
+    <label for="pacote30">Quantidade de $30:</label>
+    <input type="number" id="pacote30" value="0" oninput="updatePacoteQuantidades(30, this.value);"><br>
+    
+    <p>Preço com desconto: $7.30, $21.85</p>
+    <p>Total: R$<span id="totalR10">0.00</span> / $<span id="totalD10">0.00</span></p>
+  </div>
+  <div class="panel">
+    <h2>Pacotes de $50, $50 Especial e $100</h2>
+    <label for="pacote50">Quantidade de $50:</label>
+    <input type="number" id="pacote50" value="0" oninput="updatePacoteQuantidades(50, this.value);"><br>
+    <label for="pacote100">Quantidade de $100:</label>
+    <input type="number" id="pacote100" value="0" oninput="updatePacoteQuantidades(100, this.value);"><br>
+    <p>Preço com desconto: $37.00, $72.50</p>
+    <p>Total: R$<span id="totalR50">0.00</span> / $<span id="totalD50">0.00</span></p>
+  </div>
+  <div class="panel">
+    <h2>Login e Informações</h2>
+    <label for="login">Login:</label>
+    <input type="text" id="login"><br>
+    <label for="password">Password:</label>
+    <input type="text" id="password"><br>
+    <label for="nickname">Nickname:</label>
+    <input type="text" id="nickname"><br>
+    <label for="level">Level:</label>
+    <input type="text" id="level"><br>
+    <label for="server">Server:</label>
+    <input type="text" id="server"><br>
+  </div>
+  <div class="panel">
+    <h2>Total dos Pacotes</h2>
+    <p>Total de Pacotes: R$<span id="totalRPacotes">0.00</span> / $<span id="totalDPacotes">0.00</span></p>
+    <button onclick="copiarInformacoes()">Copiar total + login</button>
+  </div>
+  <div class="panel">
     <h2>Informações de Pagamento</h2>
     <p><strong>Pix:</strong> CELULAR 14988231270 Nome: DAOSHI TRADE</p>
     <p><strong>Binance:</strong> estrela203@hotmail.com</p>
-
-
-
+  </div>
 </body>
 </html>
