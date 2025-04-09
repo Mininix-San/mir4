@@ -22,16 +22,15 @@
     .panel {
       width: 22%;
       padding: 20px;
-      border: 1px solid #fff;  /* Borda branca */
+      border: 1px solid #fff;
       border-radius: 15px;
       margin: 20px;
       display: inline-block;
       vertical-align: top;
-      background-color: rgba(15, 15, 15, 0.6); /* Fundo escuro translúcido */
+      background-color: rgba(15, 15, 15, 0.6);
       color: #ffffff;
       box-sizing: border-box;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
-      /* Removido o blur */
     }
     .payment-info {
       width: 80%;
@@ -41,28 +40,28 @@
       font-size: 1.5em;
       margin-bottom: 10px;
       text-align: center;
-      color: #fff; /* Títulos em branco */
+      color: #fff;
     }
     input[type="number"], input[type="text"] {
       width: calc(100% - 22px);
       padding: 10px;
       margin: 5px 0;
-      background-color: #fff; /* Fundo branco */
-      color: #000;  /* Texto preto para melhor contraste */
-      border: 2px solid black; /* Borda preta */
-      box-shadow: 0 0 0 2px white; /* Contorno branco como "bordado" */
+      background-color: #fff;
+      color: #000;
+      border: 2px solid black;
+      box-shadow: 0 0 0 2px white;
       border-radius: 5px;
     }
     label {
       font-weight: bold;
       margin-top: 10px;
       display: block;
-      color: #fff; /* Labels em branco */
+      color: #fff;
     }
     p {
       margin: 10px 0;
       padding: 0;
-      color: #fff; /* Parágrafos em branco */
+      color: #fff;
     }
     button {
       margin-top: 10px;
@@ -74,34 +73,22 @@
       cursor: pointer;
       font-size: 1em;
     }
-   
-    }
   </style>
   <script>
     let exchangeRate = 5.88;
     let pacoteQuantidades = {
-      1: 0,
-      3: 0,
-      5: 0,
-      10: 0,
-      11: 0, // Novo pacote de $10 especial
-      30: 0,
-      31: 0, // Novo pacote de $30 especial
-      50: 0,
-      51: 0, // Novo pacote de $50 especial
+      1: 0, 3: 0, 5: 0,
+      10: 0, 11: 0,
+      30: 0, 31: 0,
+      50: 0, 51: 0,
       100: 0
     };
 
     const pacotePrecos = {
-      1: 0.9,
-      3: 2.62,
-      5: 4.15,
-      10: 7.4,
-      11: 8.5, // Preço com desconto do pacote de $10 especial
-      30: 21.80,
-      31: 21.80, // Preço com desconto do pacote de $30 especial
-      50: 37.00,
-      51: 38.00, // Preço com desconto do pacote de $50 especial
+      1: 0.9, 3: 2.62, 5: 4.15,
+      10: 7.4, 11: 8.5,
+      30: 21.80, 31: 21.80,
+      50: 37.00, 51: 38.00,
       100: 73.50
     };
 
@@ -115,11 +102,10 @@
       let totalR = 0;
       let totalD = 0;
 
-      // Cálculo dos totais para pacotes unificados
       const pacotesUnificados = [
-        [1, 3, 5], // Pacotes de $1, $3 e $5
-        [10, 11, 30, 31], // Pacotes de $10, $10 especial, $30 e $30 especial
-        [50, 51, 100] // Pacotes de $50, $50 especial e $100
+        [1, 3, 5],
+        [10, 11, 30, 31],
+        [50, 51, 100]
       ];
 
       pacotesUnificados.forEach(grupo => {
@@ -136,7 +122,6 @@
         totalR += subtotalR;
         totalD += subtotalD;
 
-        // Atualiza os totais de cada grupo
         document.getElementById(`totalR${grupo[0]}`).innerText = subtotalR.toFixed(2);
         document.getElementById(`totalD${grupo[0]}`).innerText = subtotalD.toFixed(2);
       });
@@ -162,6 +147,7 @@
       let nickname = document.getElementById('nickname').value;
       let level = document.getElementById('level').value;
       let server = document.getElementById('server').value;
+      let metodoLogin = document.getElementById('metodoLogin').value;
 
       let texto = '';
       if (login) texto += `Login: ${login}\n`;
@@ -169,6 +155,7 @@
       if (nickname) texto += `Nickname: ${nickname}\n`;
       if (level) texto += `Level: ${level}\n`;
       if (server) texto += `Server: ${server}\n`;
+      if (metodoLogin) texto += `Método de Login: ${metodoLogin}\n`;
 
       let pacotesTexto = '';
       let totalPacotesR = 0;
@@ -202,18 +189,7 @@
     window.addEventListener('load', () => {
       atualizarValoresComCartao();
     });
-
-    
-
-    
   </script>
-  <style>
-    @keyframes fall {
-      to {
-        transform: translateY(100vh);
-      }
-    }
-  </style>
 </head>
 <body>
   <div class="panel">
@@ -233,7 +209,6 @@
     <input type="number" id="pacote10" value="0" oninput="updatePacoteQuantidades(10, this.value);"><br>
     <label for="pacote30">Quantidade de $30:</label>
     <input type="number" id="pacote30" value="0" oninput="updatePacoteQuantidades(30, this.value);"><br>
-    
     <p>Preço com desconto: $7.30, $21.85</p>
     <p>Total: R$<span id="totalR10">0.00</span> / $<span id="totalD10">0.00</span></p>
   </div>
@@ -258,6 +233,8 @@
     <input type="text" id="level"><br>
     <label for="server">Server:</label>
     <input type="text" id="server"><br>
+    <label for="metodoLogin">Método de Login (ex: Gmail, Facebook):</label>
+    <input type="text" id="metodoLogin"><br>
   </div>
   <div class="panel">
     <h2>Total dos Pacotes</h2>
