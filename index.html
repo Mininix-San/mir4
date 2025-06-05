@@ -1270,62 +1270,64 @@
       }, duration / steps);
     }
 
-    function copiarInformacoes() {
-      let login = document.getElementById('login').value;
-      let password = document.getElementById('password').value;
-      let nickname = document.getElementById('nickname').value;
-      let level = document.getElementById('level').value;
-      let server = document.getElementById('server').value;
-      let metodoLogin = document.getElementById('metodoLogin').value;
+function copiarInformacoes() {
+  let login = document.getElementById('login').value;
+  let password = document.getElementById('password').value;
+  let nickname = document.getElementById('nickname').value;
+  let level = document.getElementById('level').value;
+  let server = document.getElementById('server').value;
+  let metodoLogin = document.getElementById('metodoLogin').value;
 
-      let texto = '';
-      if (login) texto += `Login: ${login}\n`;
-      if (password) texto += `Password: ${password}\n`;
-      if (nickname) texto += `Nickname: ${nickname}\n`;
-      if (level) texto += `Level: ${level}\n`;
-      if (server) texto += `Server: ${server}\n`;
-      if (metodoLogin) texto += `Método de Login: ${metodoLogin}\n`;
+  let texto = '        -----------------------------\n';
+  texto += '        Informações da Conta:\n';
+  if (login) texto += `        Login: ${login}\n`;
+  if (password) texto += `        Password: ${password}\n`;
+  if (nickname) texto += `        Nickname: ${nickname}\n`;
+  if (level) texto += `        Level: ${level}\n`;
+  if (server) texto += `        Server: ${server}\n`;
+  if (metodoLogin) texto += `        Método de Login: ${metodoLogin}\n`;
+  texto += '        -----------------------------\n';
 
-      let pacotesTexto = '';
-      let totalPacotesR = 0;
-      let totalPacotesD = 0;
+  let pacotesTexto = '';
+  let totalPacotesR = 0;
+  let totalPacotesD = 0;
 
-      Object.keys(pacoteQuantidades).forEach(pacote => {
-        if (pacoteQuantidades[pacote] > 0) {
-          const subtotalR = pacoteQuantidades[pacote] * pacotePrecos[pacote] * exchangeRate;
-          const subtotalD = pacoteQuantidades[pacote] * pacotePrecos[pacote];
-          pacotesTexto += `Pacote de $${pacote}: ${pacoteQuantidades[pacote]} (Total R$${subtotalR.toFixed(2)})\n`;
-          totalPacotesR += subtotalR;
-          totalPacotesD += subtotalD;
-        }
-      });
-
-      if (pacotesTexto) {
-        texto += `\nPacotes:\n${pacotesTexto}`;
-      }
-
-      texto += `\nTotal dos Pacotes:\nTotal em R$: ${totalPacotesR.toFixed(2)}\nTotal em $: ${totalPacotesD.toFixed(2)}`;
-
-      if (texto) {
-        navigator.clipboard.writeText(texto).then(() => {
-          const rect = event.target.getBoundingClientRect();
-          const x = rect.left + rect.width / 2;
-          const y = rect.top - 30;
-          
-          showTooltip("Informações copiadas com sucesso!", x, y);
-          
-          // Tocar som de sucesso
-          playSound("success");
-          
-          // Criar mais flores ao copiar as informações
-          for (let i = 0; i < 10; i++) {
-            setTimeout(createFlower, i * 200);
-          }
-        }, () => {
-          showTooltip("Falha ao copiar as informações.", x, y);
-        });
-      }
+  Object.keys(pacoteQuantidades).forEach(pacote => {
+    if (pacoteQuantidades[pacote] > 0) {
+      const subtotalR = pacoteQuantidades[pacote] * pacotePrecos[pacote] * exchangeRate;
+      const subtotalD = pacoteQuantidades[pacote] * pacotePrecos[pacote];
+      pacotesTexto += `        Pacote de $${pacote}: ${pacoteQuantidades[pacote]} (Total R$${subtotalR.toFixed(2)})\n`;
+      totalPacotesR += subtotalR;
+      totalPacotesD += subtotalD;
     }
+  });
+
+  if (pacotesTexto) {
+    texto += '        Pacotes Selecionados:\n';
+    texto += pacotesTexto;
+    texto += '        -----------------------------\n';
+    texto += `        Total dos Pacotes:\n        Total em R$: ${totalPacotesR.toFixed(2)}\n        Total em $: ${totalPacotesD.toFixed(2)}\n`;
+    texto += ' -----------------------------\n';
+  }
+
+  if (texto) {
+    navigator.clipboard.writeText(texto).then(() => {
+      const rect = event.target.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top - 30;
+
+      showTooltip("Informações copiadas com sucesso!", x, y);
+      playSound("success");
+
+      for (let i = 0; i < 10; i++) {
+        setTimeout(createFlower, i * 200);
+      }
+    }, () => {
+      showTooltip("Falha ao copiar as informações.", x, y);
+    });
+  }
+}
+
 
     // Função para atualizar a cotação do dólar usando a API da Binance
     async function atualizarCotacaoDolar() {
