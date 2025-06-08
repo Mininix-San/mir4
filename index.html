@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loja Daoshi Top Up</title>
+  <title>Loja Daoshi Gold</title>
   <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1lLnjQ3NYt6Bd6WapJ2p0EjzfQJIbB-es">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,10 +15,8 @@
       --accent-color: #b39ddb;
       --gold-color: #ffd700;
       --gold-dark: #d4af37;
-      --blue-color: #3f51b5;
-      --blue-dark: #303f9f;
       --text-color: #f5f5f5;
-      --panel-bg: rgba(94, 53, 177, 0.25);
+      --panel-bg: rgba(242, 124, 227, 0.25); /* Cor do painel mantida do arquivo do usuário */
       --panel-border: rgba(255, 215, 0, 0.3);
       --input-bg: rgba(255, 255, 255, 0.1);
       --input-border: rgba(255, 215, 0, 0.5);
@@ -35,12 +33,12 @@
     }
     
     body {
-      background-image: url('https://lh3.googleusercontent.com/d/1ECtr_z7YWp_QugVyvTQBWTiV9d88m5zS');
+      background-image: url("https://lh3.googleusercontent.com/d/1ECtr_z7YWp_QugVyvTQBWTiV9d88m5zS");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       background-attachment: fixed;
-      font-family: 'Montserrat', sans-serif;
+      font-family: "Montserrat", sans-serif;
       color: var(--text-color);
       margin: 0;
       padding: 0;
@@ -52,7 +50,7 @@
     }
     
     body::before {
-      content: '';
+      content: "";
       position: fixed;
       top: 0;
       left: 0;
@@ -81,7 +79,7 @@
     }
     
     header h1 {
-      font-family: 'Cinzel', serif;
+      font-family: "Cinzel", serif;
       font-size: 2.5rem;
       font-weight: 700;
       margin-bottom: 5px;
@@ -99,30 +97,6 @@
       margin: 0 auto;
       color: var(--accent-color);
       font-weight: 300;
-    }
-    
-    .cotacao-display {
-      position: absolute;
-      top: 10px;
-      right: 20px;
-      background: rgba(0,0,0,0.5);
-      padding: 8px 15px;
-      border-radius: 20px;
-      font-size: 0.9rem;
-      border: 1px solid var(--gold-color);
-      box-shadow: 0 0 10px rgba(255,215,0,0.3);
-      display: flex;
-      align-items: center;
-    }
-    
-    .cotacao-display .icon {
-      margin-right: 8px;
-      color: var(--gold-color);
-    }
-    
-    .cotacao-display .value {
-      font-weight: 600;
-      color: var(--gold-color);
     }
     
     .main-content {
@@ -155,20 +129,20 @@
       overflow-y: auto;
     }
     
-    .panel-left {
+    .panel-gold {
       flex: 2;
     }
     
-    .panel-center {
-      flex: 2;
+    .panel-rates {
+      flex: 1.5;
     }
     
-    .panel-right {
+    .panel-payment {
       flex: 1;
     }
     
     .panel::before {
-      content: '';
+      content: "";
       position: absolute;
       top: 0;
       left: 0;
@@ -184,7 +158,7 @@
     }
     
     h2 {
-      font-family: 'Cinzel', serif;
+      font-family: "Cinzel", serif;
       font-size: 1.5rem;
       font-weight: 600;
       margin: 0;
@@ -195,7 +169,7 @@
     }
     
     h2::after {
-      content: '';
+      content: "";
       position: absolute;
       bottom: -8px;
       left: 50%;
@@ -203,15 +177,6 @@
       width: 40px;
       height: 2px;
       background: var(--gold-color);
-    }
-    
-    h3 {
-      font-family: 'Cinzel', serif;
-      font-size: 1.2rem;
-      font-weight: 500;
-      margin: 15px 0 10px;
-      color: var(--accent-color);
-      text-align: center;
     }
     
     .form-group {
@@ -234,7 +199,7 @@
       color: var(--text-color);
       border: 1px solid var(--input-border);
       border-radius: 10px;
-      font-family: 'Montserrat', sans-serif;
+      font-family: "Montserrat", sans-serif;
       font-size: 0.95rem;
       transition: all 0.3s ease;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -257,40 +222,30 @@
       -moz-appearance: textfield;
     }
     
-    .pacote-info {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 5px;
-      font-size: 0.9rem;
-    }
-    
-    .pacote-price {
-      color: var(--gold-color);
-      font-weight: 600;
-    }
-    
-    .pacote-section {
-      margin-bottom: 20px;
-      padding: 15px;
+    .result-group {
+      margin: 10px 0;
+      padding: 12px;
       background: rgba(0, 0, 0, 0.2);
       border-radius: 10px;
       border-left: 3px solid var(--gold-color);
     }
     
-    .pacote-total {
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    .result-item {
       display: flex;
       justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
     }
     
-    .pacote-total-label {
+    .result-item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .result-label {
       font-weight: 500;
     }
     
-    .pacote-total-value {
+    .result-value {
       font-weight: 600;
       color: var(--gold-color);
     }
@@ -304,7 +259,7 @@
       color: white;
       border: none;
       border-radius: 10px;
-      font-family: 'Montserrat', sans-serif;
+      font-family: "Montserrat", sans-serif;
       font-size: 0.95rem;
       font-weight: 500;
       cursor: pointer;
@@ -329,7 +284,7 @@
     }
     
     .btn::after {
-      content: '';
+      content: "";
       position: absolute;
       top: -50%;
       left: -50%;
@@ -352,32 +307,101 @@
       margin-right: 8px;
     }
     
-    .login-section {
-      margin-top: 20px;
+    .invisible-button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 30px;
+      height: 30px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 10;
     }
     
-    .total-section {
-      margin-top: 20px;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 15px;
-      border: 1px solid var(--gold-color);
+    .invisible-button::after {
+      content: "🌸";
+      font-size: 20px;
+      opacity: 0.5;
+      transition: opacity 0.3s;
     }
     
-    .total-grand {
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin: 15px 0;
+    .invisible-button:hover::after {
+      opacity: 1;
+    }
+    
+    .rates-title {
+      font-family: "Cinzel", serif;
+      font-size: 1.1rem;
       text-align: center;
+      margin-bottom: 15px;
       color: var(--gold-color);
-      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+    
+    .rates-grid {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 8px;
+    }
+    
+    .rate-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 10px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      font-size: 0.85rem;
+    }
+    
+    .rate-label {
+      display: flex;
+      align-items: center;
+    }
+    
+    .rate-label span {
+      margin-left: 5px;
+    }
+    
+    .rate-value {
+      font-weight: 600;
+      color: var(--gold-color);
+    }
+    
+    .calc-gold {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .calc-gold-title {
+      font-size: 1rem;
+      margin-bottom: 12px;
+      text-align: center;
+      color: var(--accent-color);
+    }
+    
+    .calc-form {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+    
+    .calc-result {
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--gold-color);
+      margin-top: 8px;
+      padding: 8px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
       animation: pulse 2s infinite;
     }
     
     @keyframes pulse {
-      0% { text-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
-      50% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
-      100% { text-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+      0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
     }
     
     .payment-method {
@@ -523,13 +547,6 @@
         max-height: none;
         overflow-y: visible;
       }
-      
-      .cotacao-display {
-        position: relative;
-        top: auto;
-        right: auto;
-        margin: 10px auto;
-      }
     }
     
     @media (max-width: 768px) {
@@ -552,7 +569,7 @@
     }
     
     .typing-effect::after {
-      content: '';
+      content: "";
       position: absolute;
       bottom: 0;
       left: 0;
@@ -601,183 +618,104 @@
 <body>
   <div class="container">
     <header>
-      <h1>Daoshi Top Up Store</h1>
+      <h1>Daoshi Gold Store</h1>
       <p>BORA CASHAR???</p>
-      <div class="cotacao-display">
-        <span class="icon">💱</span>
-        <span id="cotacao">Carregando cotação...</span>
-      </div>
     </header>
     
     <div class="main-content">
-      <!-- Painel Esquerdo - Pacotes Menores -->
-      <div class="panel panel-left">
+      <!-- Painel Principal de Cálculo de Ouro -->
+      <div class="panel panel-gold">
+        <button class="invisible-button" onclick="copyMessageToClipboard()"></button>
+        
         <div class="panel-header">
-          <h2> Pacotes Pequenos e Médios </h2>
+          <h2>☀️ Cálculo de Ouro ☀️</h2>
         </div>
         
-        <div class="pacote-section">
-          <h3>Pacotes de $1, $3 e $5</h3>
-          
-          <div class="form-group">
-            <label for="pacote1">Quantidade de $1:</label>
-            <input type="number" id="pacote1" value="0" oninput="updatePacoteQuantidades(1, this.value);">
-            <div class="pacote-info">
-              <span>Preço com desconto:</span>
-              <span class="pacote-price">$0.90</span>
-            </div>
+        <div class="form-group">
+          <label for="quantidadeOuro">Quantidade de Ouro:</label>
+          <input type="number" id="quantidadeOuro" value="0" oninput="updateOuroCalculations()">
+        </div>
+        
+        <div class="form-group">
+          <label for="servidor">Servidor:</label>
+          <input type="text" id="servidor" placeholder="Insira o servidor">
+        </div>
+        
+        <div class="result-group">
+          <div class="result-item">
+            <div class="result-label">Total em R$:</div>
+            <div class="result-value">R$<span id="totalROuro">0.00</span></div>
           </div>
-          
-          <div class="form-group">
-            <label for="pacote3">Quantidade de $3:</label>
-            <input type="number" id="pacote3" value="0" oninput="updatePacoteQuantidades(3, this.value);">
-            <div class="pacote-info">
-              <span>Preço com desconto:</span>
-              <span class="pacote-price">$2.62</span>
-            </div>
+          <div class="result-item">
+            <div class="result-label">Total em $:</div>
+            <div class="result-value">$<span id="totalDOuro">0.00</span></div>
           </div>
-          
-          <div class="form-group">
-            <label for="pacote5">Quantidade de $5:</label>
-            <input type="number" id="pacote5" value="0" oninput="updatePacoteQuantidades(5, this.value);">
-            <div class="pacote-info">
-              <span>Preço com desconto:</span>
-              <span class="pacote-price">$4.15</span>
-            </div>
-          </div>
-          
-          <div class="pacote-total">
-            <div class="pacote-total-label">Total:</div>
-            <div class="pacote-total-value">
-              R$<span id="totalR1">0.00</span> / $<span id="totalD1">0.00</span>
-            </div>
+          <div class="result-item">
+            <div class="result-label">Quantidade a anunciar:</div>
+            <div class="result-value"><span id="quantidadeAnunciada">0</span></div>
           </div>
         </div>
         
-        <div class="pacote-section">
-          <h3>Pacotes de $10 e $30 / Passe</h3>
-          
-          <div class="form-group">
-            <label for="pacote10">Quantidade de $10:</label>
-            <input type="number" id="pacote10" value="0" oninput="updatePacoteQuantidades(10, this.value);">
-            <div class="pacote-info">
-              <span>Preço com desconto:</span>
-              <span class="pacote-price">$7.40</span>
-            </div>
+        <button class="btn" onclick="copyTotalsToClipboard()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          Copiar Totais
+        </button>
+      </div>
+      
+      <!-- Painel de Taxas e Conversão -->
+      <div class="panel panel-rates">
+        <div class="panel-header">
+          <h2>💲 Taxas e Conversão 💲</h2>
+        </div>
+        
+        <div class="rates-title">Taxas de Conversão</div>
+        <div class="rates-grid">
+          <div class="rate-item">
+            <div class="rate-label">💲 <span>Até 10k</span></div>
+            <div class="rate-value">R$<span id="rate10k">29.00</span></div>
           </div>
-          
-          <div class="form-group">
-            <label for="pacote30">Quantidade de $30:</label>
-            <input type="number" id="pacote30" value="0" oninput="updatePacoteQuantidades(30, this.value);">
-            <div class="pacote-info">
-              <span>Preço com desconto:</span>
-              <span class="pacote-price">$21.80</span>
-            </div>
+          <div class="rate-item">
+            <div class="rate-label">💲 <span>Acima de 10k</span></div>
+            <div class="rate-value">R$<span id="rate10kAbove">26.00</span></div>
           </div>
-          
-          <div class="pacote-total">
-            <div class="pacote-total-label">Total:</div>
-            <div class="pacote-total-value">
-              R$<span id="totalR10">0.00</span> / $<span id="totalD10">0.00</span>
+          <div class="rate-item">
+            <div class="rate-label">💲 <span>Acima de 20k</span></div>
+            <div class="rate-value">R$<span id="rate20kAbove">25.00</span></div>
+          </div>
+          <div class="rate-item">
+            <div class="rate-label">💲 <span>Acima de 30k</span></div>
+            <div class="rate-value">R$<span id="rate30kAbove">24.00</span></div>
+          </div>
+          <div class="rate-item">
+            <div class="rate-label">💲 <span>Valor cada 1k em $ (USDT)</span></div>
+            <div class="rate-value">$<span id="rateDollar">4.20</span></div>
+          </div>
+        </div>
+        
+        <div class="calc-gold">
+          <div class="calc-gold-title">Conversão Rápida</div>
+          <div class="calc-form">
+            <div class="form-group">
+              <label for="inputReal">Converter R$ para Gold:</label>
+              <input type="number" id="inputReal" placeholder="Digite valor em R$" oninput="calculateGoldFromReal()" value="0">
+              <div class="calc-result" id="resultadoReal">≈0 Gold</div>
+            </div>
+            <div class="form-group">
+              <label for="inputDollar">Converter USDT para Gold:</label>
+              <input type="number" id="inputDollar" placeholder="Digite valor em USDT" oninput="calculateGoldFromDollar()" value="0">
+              <div class="calc-result" id="resultadoDollar">≈0 Gold</div>
             </div>
           </div>
         </div>
       </div>
       
-      <!-- Painel Central - Pacotes Maiores e Login -->
-      <div class="panel panel-center">
+      <!-- Painel de Informações de Pagamento -->
+      <div class="panel panel-payment">
         <div class="panel-header">
-          <h2> Pacotes Grandes e Login </h2>
-        </div>
-        
-        <div class="pacote-section">
-          <h3>Pacotes de $50 e $100</h3>
-          
-          <div class="form-group">
-            <label for="pacote50">Quantidade de $50:</label>
-            <input type="number" id="pacote50" value="0" oninput="updatePacoteQuantidades(50, this.value);">
-            <div class="pacote-info">
-              <span>Preço com desconto:</span>
-              <span class="pacote-price">$37.00</span>
-            </div>
-          </div>
-          
-          <div class="form-group">
-            <label for="pacote100">Quantidade de $100:</label>
-            <input type="number" id="pacote100" value="0" oninput="updatePacoteQuantidades(100, this.value);">
-            <div class="pacote-info">
-              <span>Preço com desconto:</span>
-              <span class="pacote-price">$73.50</span>
-            </div>
-          </div>
-          
-          <div class="pacote-total">
-            <div class="pacote-total-label">Total:</div>
-            <div class="pacote-total-value">
-              R$<span id="totalR50">0.00</span> / $<span id="totalD50">0.00</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="login-section">
-          <h3>Informações de Login</h3>
-          
-          <div class="form-group">
-            <label for="login">Login:</label>
-            <input type="text" id="login">
-          </div>
-          
-          <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="text" id="password">
-          </div>
-          
-          <div class="form-group">
-            <label for="nickname">Nickname:</label>
-            <input type="text" id="nickname">
-          </div>
-          
-          <div class="form-group">
-            <label for="level">Level:</label>
-            <input type="text" id="level">
-          </div>
-          
-          <div class="form-group">
-            <label for="server">Server:</label>
-            <input type="text" id="server">
-          </div>
-          
-          <div class="form-group">
-            <label for="metodoLogin">Método de Login (ex: Gmail, Facebook):</label>
-            <input type="text" id="metodoLogin">
-          </div>
-        </div>
-      </div>
-      
-      <!-- Painel Direito - Total e Pagamento -->
-      <div class="panel panel-right">
-        <div class="panel-header">
-          <h2> Resumo e Pagamento </h2>
-        </div>
-        
-        <div class="total-section">
-          <h3>Total dos Pacotes</h3>
-          
-          <div class="total-grand">
-            R$<span id="totalRPacotes">0.00</span>
-          </div>
-          
-          <div class="total-grand">
-            $<span id="totalDPacotes">0.00</span>
-          </div>
-          
-          <button class="btn" onclick="copiarInformacoes()">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg>
-            Copiar Total + Login
-          </button>
+          <h2>🌸 Pagamento 🌸</h2>
         </div>
         
         <div class="payment-method">
@@ -815,9 +753,6 @@
   
   <div class="tooltip" id="tooltip"></div>
   
-  <!-- Elemento de áudio para a música de fundo -->
-  <audio id="backgroundMusic" src="audio_files/background_music.mp3" loop></audio>
-  
   <div class="sound-control" id="soundControl">
     <svg class="sound-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
       <path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/>
@@ -832,6 +767,9 @@
     <input type="range" min="0" max="100" value="70" id="volumeRange">
   </div>
   
+  <!-- Elemento de áudio para a música de fundo -->
+  <audio id="backgroundMusic" src="audio_files/background_music.mp3" loop></audio>
+  
   <script>
     // Variáveis de áudio
     let audioContext;
@@ -841,28 +779,25 @@
     let audioBuffers = {};
     let backgroundMusic;
     
-    // Variáveis de cálculo (mantidas do original)
-    let exchangeRate = 5.88;
-    let pacoteQuantidades = {
-      1: 0, 3: 0, 5: 0,
-      10: 0, 11: 0,
-      30: 0, 31: 0,
-      50: 0, 51: 0,
-      100: 0
-    };
-
-    const pacotePrecos = {
-      1: 0.9, 3: 2.62, 5: 4.15,
-      10: 7.4, 11: 8.5,
-      30: 21.80, 31: 21.80,
-      50: 37.00, 51: 38.00,
-      100: 73.50
-    };
+    // Variáveis de cálculo
+    let goldRateBase = 24.00;
+    let goldRate10k = 24.00;
+    let goldRate20k = 24.00;
+    let goldRate30k = 24.00;
+    let goldRateD = 4.20;
+    let listaOuroGlobal = [];
     
     // Inicialização
     window.onload = function() {
       // Inicializar áudio automaticamente
       initAudio();
+      
+      updateOuroCalculations();
+      calculateGoldFromReal();
+      calculateGoldFromDollar();
+      clearInputOnClick("quantidadeOuro");
+      clearInputOnClick("inputReal");
+      clearInputOnClick("inputDollar");
       
       // Iniciar animação de partículas
       initParticles();
@@ -876,27 +811,9 @@
       // Adicionar efeitos de hover aos botões
       setupButtonEffects();
       
-      // Buscar cotação do dólar
-      atualizarCotacaoDolar();
-      
       // Adicionar interação para iniciar áudio (necessário para autoplay em alguns navegadores)
       document.body.addEventListener("click", tryStartAudio, { once: true });
       document.body.addEventListener("keydown", tryStartAudio, { once: true });
-      
-      // Limpar inputs ao clicar
-      document.querySelectorAll('input[type="number"]').forEach(input => {
-        input.addEventListener('focus', function() {
-          if (this.value === '0') {
-            this.value = '';
-          }
-        });
-        
-        input.addEventListener('blur', function() {
-          if (this.value === '') {
-            this.value = '0';
-          }
-        });
-      });
     };
     
     function tryStartAudio() {
@@ -1193,63 +1110,210 @@
       }, 2000);
     }
     
-    // Funções de cálculo (mantidas do original)
-    function updatePacoteQuantidades(pacote, quantidade) {
-      pacoteQuantidades[pacote] = parseInt(quantidade) || 0;
-      updatePacoteTotals();
+    // Funções de cálculo
+    function updateOuroCalculations() {
+      const quantidade = parseInt(document.getElementById("quantidadeOuro").value) || 0;
+      let goldRateR = goldRateBase;
+      
+      if (quantidade >= 30000) {
+        goldRateR = goldRate30k;
+      } else if (quantidade >= 20000) {
+        goldRateR = goldRate20k;
+      } else if (quantidade >= 10000) {
+        goldRateR = goldRate10k;
+      }
+      
+      const totalR = (quantidade / 1000) * goldRateR;
+      const totalD = (quantidade / 1000) * goldRateD;
+      listaOuroGlobal = calcularListaOuro(quantidade);
+      
+      // Animação de contagem para os totais
+      animateCounter("totalROuro", totalR.toFixed(2));
+      animateCounter("totalDOuro", totalD.toFixed(2));
+      
+      document.getElementById("quantidadeAnunciada").innerText = listaOuroGlobal.join(", ");
+      
+      // Atualiza o mini painel
+      document.getElementById("rate10k").innerText = goldRateBase.toFixed(2);
+      document.getElementById("rate10kAbove").innerText = goldRate10k.toFixed(2);
+      document.getElementById("rate20kAbove").innerText = goldRate20k.toFixed(2);
+      document.getElementById("rate30kAbove").innerText = goldRate30k.toFixed(2);
+      document.getElementById("rateDollar").innerText = goldRateD.toFixed(2);
       
       // Adicionar efeito de digitação
-      const input = document.getElementById(`pacote${pacote}`);
-      if (input) {
-        input.classList.add("typing-effect");
-        setTimeout(() => {
-          input.classList.remove("typing-effect");
-        }, 1000);
-      }
+      document.getElementById("quantidadeOuro").classList.add("typing-effect");
+      setTimeout(() => {
+        document.getElementById("quantidadeOuro").classList.remove("typing-effect");
+      }, 1000);
       
       // Tocar som de digitação
       playSound("type");
     }
-
-    function updatePacoteTotals() {
-      let totalR = 0;
-      let totalD = 0;
-
-      const pacotesUnificados = [
-        [1, 3, 5],
-        [10, 11, 30, 31],
-        [50, 51, 100]
-      ];
-
-      pacotesUnificados.forEach(grupo => {
-        let subtotalR = 0;
-        let subtotalD = 0;
-
-        grupo.forEach(pacote => {
-          const quantidade = pacoteQuantidades[pacote];
-          const preco = pacotePrecos[pacote];
-          subtotalR += quantidade * preco * exchangeRate;
-          subtotalD += quantidade * preco;
-        });
-
-        totalR += subtotalR;
-        totalD += subtotalD;
-
-        // Animação de contagem para os totais
-        animateCounter(`totalR${grupo[0]}`, subtotalR.toFixed(2));
-        animateCounter(`totalD${grupo[0]}`, subtotalD.toFixed(2));
+    
+    function calcularListaOuro(quantidade) {
+      const quantidadeAnunciada = Math.floor(quantidade + (quantidade * 5.3 / 100));
+      let divisao = quantidade >= 20000 ? Math.ceil(quantidade / 5000) : Math.ceil(quantidade / 2500);
+      return dividirEmPartes(quantidadeAnunciada, divisao, quantidade);
+    }
+    
+    function dividirEmPartes(total, partes, quantidade) {
+      let min, max;
+      if (quantidade >= 20000) {
+        min = Math.floor(total / partes * 0.9);
+        max = Math.ceil(total / partes * 1.1);
+      } else {
+        min = Math.floor(total / partes * 0.85);
+        max = Math.ceil(total / partes * 1.15);
+      }
+      let resultado = [], soma = 0;
+      for (let i = 0; i < partes - 1; i++) {
+        const valor = Math.floor(Math.random() * (max - min + 1)) + min;
+        if (soma + valor >= total) {
+          resultado.push(total - soma);
+          soma = total;
+          break;
+        }
+        resultado.push(valor);
+        soma += valor;
+      }
+      if (soma < total) {
+         const ultimaParte = total - soma;
+         resultado.push(ultimaParte > 0 ? ultimaParte : min);
+      } else if (resultado.length < partes && partes > 0 && total > 0 && resultado.reduce((a, b) => a + b, 0) < total) {
+        const restante = total - resultado.reduce((a, b) => a + b, 0);
+        if (restante > 0) resultado.push(restante);
+      }
+      while (resultado.length < partes && partes > 0) {
+          resultado.push(min);
+      }
+      if (resultado.length > partes && partes > 0) {
+          resultado = resultado.slice(0, partes);
+      }
+      if (partes > 0) {
+        soma = 0;
+        for (let i = 0; i < partes -1; i++) {
+            soma += resultado[i];
+        }
+        if (total - soma > 0) {
+            resultado[partes-1] = total - soma;
+        } else if (partes === 1 && total > 0) {
+             resultado[0] = total;
+        } else if (total > 0 && resultado.length > 0) {
+            let somaParcial = 0;
+            for(let i = 0; i < resultado.length -1; i++) somaParcial += resultado[i];
+            resultado[resultado.length -1] = total - somaParcial > 0 ? total - somaParcial : min;
+            let currentSum = resultado.reduce((acc, val) => acc + val, 0);
+            if (currentSum !== total && resultado.length > 0) {
+                let diff = total - currentSum;
+                resultado[resultado.length - 1] += diff;
+            }
+        }
+      }
+      return resultado.filter(val => val > 0);
+    }
+    
+    function copyTotalsToClipboard() {
+      const totalR = document.getElementById("totalROuro").innerText;
+      const totalD = document.getElementById("totalDOuro").innerText;
+      const quantidadeAnunciada = document.getElementById("quantidadeAnunciada").innerText;
+      const servidor = document.getElementById("servidor").value;
+      const textToCopy = `Servidor: ${servidor}\nTotal em R$: ${totalR}\nTotal em $: ${totalD}\nQuantidade de Ouro a anunciar: ${quantidadeAnunciada}`;
+      
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        const rect = event.target.getBoundingClientRect();
+        const x = rect.left + rect.width / 2;
+        const y = rect.top - 30;
+        
+        showTooltip("Totais copiados com sucesso!", x, y);
+        
+        playSound("success");
       });
-
-      // Animação de contagem para os totais gerais
-      animateCounter('totalRPacotes', totalR.toFixed(2));
-      animateCounter('totalDPacotes', totalD.toFixed(2));
+    }
+    
+    function copyMessageToClipboard() {
+      const text = `Ai você me encaminha o comprovante aqui na mensagem. Pois eu sou a irmã da Daoshi e não tô com acesso a conta ^^ 🌺~`;
+      
+      navigator.clipboard.writeText(text).then(() => {
+        const rect = event.target.getBoundingClientRect();
+        const x = rect.left + 30;
+        const y = rect.top + 30;
+        
+        showTooltip("Mensagem copiada com sucesso!", x, y);
+        
+        playSound("success");
+        
+        // Criar mais flores ao copiar a mensagem secreta
+        for (let i = 0; i < 10; i++) {
+          setTimeout(createFlower, i * 200);
+        }
+      });
+    }
+    
+    function calculateGoldFromReal() {
+      const valor = parseFloat(document.getElementById("inputReal").value) || 0;
+      let rateForConversion = goldRateBase;
+      
+      if (valor / goldRateBase * 1000 >= 30000) rateForConversion = goldRate30k;
+      else if (valor / goldRateBase * 1000 >= 20000) rateForConversion = goldRate20k;
+      else if (valor / goldRateBase * 1000 >= 10000) rateForConversion = goldRate10k;
+      
+      const gold = (valor * 1000) / rateForConversion;
+      
+      // Animação de contagem
+      animateGoldResult("resultadoReal", gold);
+      
+      // Adicionar efeito de digitação
+      document.getElementById("inputReal").classList.add("typing-effect");
+      setTimeout(() => {
+        document.getElementById("inputReal").classList.remove("typing-effect");
+      }, 1000);
+      
+      // Tocar som de digitação
+      playSound("type");
+    }
+    
+    function calculateGoldFromDollar() {
+      const valor = parseFloat(document.getElementById("inputDollar").value) || 0;
+      const gold = (valor * 1000) / goldRateD;
+      
+      // Animação de contagem
+      animateGoldResult("resultadoDollar", gold);
+      
+      // Adicionar efeito de digitação
+      document.getElementById("inputDollar").classList.add("typing-effect");
+      setTimeout(() => {
+        document.getElementById("inputDollar").classList.remove("typing-effect");
+      }, 1000);
+      
+      // Tocar som de digitação
+      playSound("type");
+    }
+    
+    // Animação de contagem para resultados de gold
+    function animateGoldResult(elementId, finalValue) {
+      const element = document.getElementById(elementId);
+      const startValue = parseInt(element.textContent.replace(/[^\d]/g, "")) || 0;
+      const duration = 500; // ms
+      const steps = 20;
+      const increment = (finalValue - startValue) / steps;
+      
+      let currentStep = 0;
+      
+      const interval = setInterval(() => {
+        currentStep++;
+        const currentValue = startValue + (increment * currentStep);
+        element.textContent = `≈${Math.round(currentValue)} Gold`;
+        
+        if (currentStep >= steps) {
+          clearInterval(interval);
+          element.textContent = `≈${Math.round(finalValue)} Gold`;
+        }
+      }, duration / steps);
     }
     
     // Animação de contagem para valores numéricos
     function animateCounter(elementId, finalValue) {
       const element = document.getElementById(elementId);
-      if (!element) return;
-      
       const startValue = parseFloat(element.textContent) || 0;
       const finalValueNum = parseFloat(finalValue);
       const duration = 500; // ms
@@ -1269,85 +1333,20 @@
         }
       }, duration / steps);
     }
-
-function copiarInformacoes() {
-  let login = document.getElementById('login').value;
-  let password = document.getElementById('password').value;
-  let nickname = document.getElementById('nickname').value;
-  let level = document.getElementById('level').value;
-  let server = document.getElementById('server').value;
-  let metodoLogin = document.getElementById('metodoLogin').value;
-
-  let texto = '        -----------------------------\n';
-  texto += '        Informações da Conta:\n';
-  if (login) texto += `        Login: ${login}\n`;
-  if (password) texto += `        Password: ${password}\n`;
-  if (nickname) texto += `        Nickname: ${nickname}\n`;
-  if (level) texto += `        Level: ${level}\n`;
-  if (server) texto += `        Server: ${server}\n`;
-  if (metodoLogin) texto += `        Método de Login: ${metodoLogin}\n`;
-  texto += '        -----------------------------\n';
-
-  let pacotesTexto = '';
-  let totalPacotesR = 0;
-  let totalPacotesD = 0;
-
-  Object.keys(pacoteQuantidades).forEach(pacote => {
-    if (pacoteQuantidades[pacote] > 0) {
-      const subtotalR = pacoteQuantidades[pacote] * pacotePrecos[pacote] * exchangeRate;
-      const subtotalD = pacoteQuantidades[pacote] * pacotePrecos[pacote];
-      pacotesTexto += `        Pacote de $${pacote}: ${pacoteQuantidades[pacote]} (Total R$${subtotalR.toFixed(2)})\n`;
-      totalPacotesR += subtotalR;
-      totalPacotesD += subtotalD;
-    }
-  });
-
-  if (pacotesTexto) {
-    texto += '        Pacotes Selecionados:\n';
-    texto += pacotesTexto;
-    texto += '        -----------------------------\n';
-    texto += `        Total dos Pacotes:\n        Total em R$: ${totalPacotesR.toFixed(2)}\n        Total em $: ${totalPacotesD.toFixed(2)}\n`;
-    texto += ' -----------------------------\n';
-  }
-
-  if (texto) {
-    navigator.clipboard.writeText(texto).then(() => {
-      const rect = event.target.getBoundingClientRect();
-      const x = rect.left + rect.width / 2;
-      const y = rect.top - 30;
-
-      showTooltip("Informações copiadas com sucesso!", x, y);
-      playSound("success");
-
-      for (let i = 0; i < 10; i++) {
-        setTimeout(createFlower, i * 200);
-      }
-    }, () => {
-      showTooltip("Falha ao copiar as informações.", x, y);
-    });
-  }
-}
-
-
-    // Função para atualizar a cotação do dólar usando a API da Binance
-    async function atualizarCotacaoDolar() {
-      try {
-        console.log('Buscando cotação na API da Binance...');
-        const response = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=USDTBRL');
-        if(!response.ok){
-          throw new Error(`HTTP error! Status: ${response.status}`);
+    
+    // Função para limpar o campo quando clicado
+    function clearInputOnClick(inputId) {
+      const input = document.getElementById(inputId);
+      input.addEventListener("focus", function() {
+        if (this.value === "0") {
+          this.value = "";
         }
-        const data = await response.json();
-        exchangeRate = parseFloat(data.price);
-        document.getElementById('cotacao').innerHTML = `Cotação USDT/BRL: <span class="value">R$${exchangeRate.toFixed(2)}</span>`;
-        console.log('Cotação atualizada: ', exchangeRate);
-
-        // Atualiza os totais com a nova cotação
-        updatePacoteTotals();
-      } catch (error) {
-        document.getElementById('cotacao').innerText = 'Erro ao carregar cotação';
-        console.error('Erro ao buscar cotação da Binance:', error);
-      }
+      });
+      input.addEventListener("blur", function() {
+        if (this.value === "") {
+          this.value = "0";
+        }
+      });
     }
   </script>
 </body>
