@@ -809,23 +809,23 @@
         <div class="rates-grid">
           <div class="rate-item">
             <div class="rate-label">💲 <span>Até 10k</span></div>
-            <div class="rate-value">R$<span id="rate10k">24.00</span></div>
+            <div class="rate-value">R$<span id="rate10k">0.00</span></div>
           </div>
           <div class="rate-item">
             <div class="rate-label">💲 <span>Acima de 10k</span></div>
-            <div class="rate-value">R$<span id="rate10kAbove">22.00</span></div>
+            <div class="rate-value">R$<span id="rate10kAbove">0.00</span></div>
           </div>
           <div class="rate-item">
             <div class="rate-label">💲 <span>Acima de 20k</span></div>
-            <div class="rate-value">R$<span id="rate20kAbove">21.50</span></div>
+            <div class="rate-value">R$<span id="rate20kAbove">0.00</span></div>
           </div>
           <div class="rate-item">
             <div class="rate-label">💲 <span>Acima de 30k</span></div>
-            <div class="rate-value">R$<span id="rate30kAbove">21.00</span></div>
+            <div class="rate-value">R$<span id="rate30kAbove">0.00</span></div>
           </div>
           <div class="rate-item">
             <div class="rate-label">💲 <span>Valor cada 1k em $ (USDT)</span></div>
-            <div class="rate-value">$<span id="rateDollar">3.75</span></div>
+            <div class="rate-value">$<span id="rateDollar">0.00</span></div>
           </div>
         </div>
         
@@ -859,7 +859,7 @@
             <input type="number" id="pacote1" value="0" oninput="updatePacoteQuantidades(1, this.value);">
             <div class="pacote-info">
               <span>Preço com desconto:</span>
-              <span class="pacote-price">$0.90</span>
+              <span class="pacote-price" data-pacote-id="1">$0.00</span>
             </div>
           </div>
           
@@ -868,7 +868,7 @@
             <input type="number" id="pacote3" value="0" oninput="updatePacoteQuantidades(3, this.value);">
             <div class="pacote-info">
               <span>Preço com desconto:</span>
-              <span class="pacote-price">$2.62</span>
+              <span class="pacote-price" data-pacote-id="3">$0.00</span>
             </div>
           </div>
           
@@ -877,7 +877,7 @@
             <input type="number" id="pacote5" value="0" oninput="updatePacoteQuantidades(5, this.value);">
             <div class="pacote-info">
               <span>Preço com desconto:</span>
-              <span class="pacote-price">$4.15</span>
+              <span class="pacote-price" data-pacote-id="5">$0.00</span>
             </div>
           </div>
           
@@ -897,7 +897,7 @@
             <input type="number" id="pacote10" value="0" oninput="updatePacoteQuantidades(10, this.value);">
             <div class="pacote-info">
               <span>Preço com desconto:</span>
-              <span class="pacote-price">$7.50</span>
+              <span class="pacote-price" data-pacote-id="10">$0.00</span>
             </div>
           </div>
           
@@ -906,7 +906,7 @@
             <input type="number" id="pacote30" value="0" oninput="updatePacoteQuantidades(30, this.value);">
             <div class="pacote-info">
               <span>Preço com desconto:</span>
-              <span class="pacote-price">$22.50</span>
+              <span class="pacote-price" data-pacote-id="30">$0.00</span>
             </div>
           </div>
           
@@ -926,7 +926,7 @@
             <input type="number" id="pacote50" value="0" oninput="updatePacoteQuantidades(50, this.value);">
             <div class="pacote-info">
               <span>Preço com desconto:</span>
-              <span class="pacote-price">$38.50</span>
+              <span class="pacote-price" data-pacote-id="50">$0.00</span>
             </div>
           </div>
           
@@ -935,7 +935,7 @@
             <input type="number" id="pacote100" value="0" oninput="updatePacoteQuantidades(100, this.value);">
             <div class="pacote-info">
               <span>Preço com desconto:</span>
-              <span class="pacote-price">$74.00</span>
+              <span class="pacote-price" data-pacote-id="100">$0.00</span>
             </div>
           </div>
           
@@ -1065,6 +1065,44 @@
   </div>
   
   <script>
+    // ===================================================================
+    // ============= ⚙️ ÁREA DE CONFIGURAÇÃO DE PREÇOS ⚙️ =============
+    // ===================================================================
+    // Altere os valores aqui. Todas as calculadoras e exibições
+    // serão atualizadas automaticamente.
+    // ===================================================================
+    const CONFIG = {
+        // Cotação padrão do Dólar (USDT). Será atualizada pela API da Binance se disponível.
+        defaultExchangeRate: 5.88,
+
+        // Taxa para pagamento com cartão de crédito (ex: 0.06 = 6%)
+        cardFeePercentage: 0.06,
+
+        // Preços para compra de Gold (valor em R$ para cada 1.000 de ouro)
+        goldRates: {
+            base: 25.00,       // Taxa padrão (até 10k)
+            above10k: 22.00,   // Taxa para valores acima de 10k
+            above20k: 21.50,   // Taxa para valores acima de 20k
+            above30k: 21.00,   // Taxa para valores acima de 30k
+            usdt: 3.75         // Preço em USDT (para cada 1.000 de ouro)
+        },
+
+        // Preços dos pacotes de Top Up (preços com desconto, em Dólares/USDT)
+        topUpPackages: {
+            1:   { price: 0.90 },
+            3:   { price: 2.62 },
+            5:   { price: 4.15 },
+            10:  { price: 7.50 },
+            30:  { price: 22.50 },
+            50:  { price: 38.50 },
+            100: { price: 74.00 }
+        }
+    };
+    // ===================================================================
+    // ============ ⚠️ FIM DA ÁREA DE CONFIGURAÇÃO ⚠️ ============
+    // ===================================================================
+
+
     // Variáveis de áudio
     let audioContext;
     let masterGainNode;
@@ -1074,14 +1112,7 @@
     let backgroundMusic;
     
     // Variáveis de cálculo
-    let exchangeRate = 5.88;
-    
-    // Variáveis para Gold
-    let goldRateBase = 24.00;
-    let goldRate10k = 22.00;
-    let goldRate20k = 21.50;
-    let goldRate30k = 21.00;
-    let goldRateD = 3.75;
+    let exchangeRate = CONFIG.defaultExchangeRate; // Inicializa com o valor padrão
     let listaOuroGlobal = [];
     
     // Variáveis para Top Up
@@ -1091,16 +1122,13 @@
       50: 0, 100: 0
     };
 
-    const pacotePrecos = {
-      1: 0.9, 3: 2.62, 5: 4.15,
-      10: 7.5, 30: 22.50,
-      50: 38.50, 100: 74
-    };
-    
     // Inicialização
     window.onload = function() {
       // Inicializar áudio automaticamente
       initAudio();
+
+      // **NOVO**: Atualiza a interface com os preços do objeto CONFIG
+      initializeUIFromConfig();
       
       // Inicializar cálculos
       updateOuroCalculations();
@@ -1147,6 +1175,28 @@
       document.body.addEventListener("click", tryStartAudio, { once: true });
       document.body.addEventListener("keydown", tryStartAudio, { once: true });
     };
+
+    /**
+     * **NOVA FUNÇÃO**
+     * Atualiza os preços na interface do usuário (HTML) usando os valores
+     * do objeto CONFIG. Roda uma vez quando a página carrega.
+     */
+    function initializeUIFromConfig() {
+        // Atualiza a tabela de taxas de Gold
+        document.getElementById('rate10k').innerText = CONFIG.goldRates.base.toFixed(2);
+        document.getElementById('rate10kAbove').innerText = CONFIG.goldRates.above10k.toFixed(2);
+        document.getElementById('rate20kAbove').innerText = CONFIG.goldRates.above20k.toFixed(2);
+        document.getElementById('rate30kAbove').innerText = CONFIG.goldRates.above30k.toFixed(2);
+        document.getElementById('rateDollar').innerText = CONFIG.goldRates.usdt.toFixed(2);
+
+        // Atualiza os preços exibidos nos pacotes de Top Up
+        document.querySelectorAll('.pacote-price').forEach(span => {
+            const pacoteId = span.dataset.pacoteId;
+            if (pacoteId && CONFIG.topUpPackages[pacoteId]) {
+                span.textContent = '$' + CONFIG.topUpPackages[pacoteId].price.toFixed(2);
+            }
+        });
+    }
     
     function tryStartAudio() {
       if (!audioInitialized) {
@@ -1446,18 +1496,18 @@
     
     function updateOuroCalculations() {
       const quantidade = parseInt(document.getElementById("quantidadeOuro").value) || 0;
-      let goldRateR = goldRateBase;
+      let goldRateR = CONFIG.goldRates.base;
       
       if (quantidade >= 30000) {
-        goldRateR = goldRate30k;
+        goldRateR = CONFIG.goldRates.above30k;
       } else if (quantidade >= 20000) {
-        goldRateR = goldRate20k;
+        goldRateR = CONFIG.goldRates.above20k;
       } else if (quantidade >= 10000) {
-        goldRateR = goldRate10k;
+        goldRateR = CONFIG.goldRates.above10k;
       }
       
       const totalR = (quantidade / 1000) * goldRateR;
-      const totalD = (quantidade / 1000) * goldRateD;
+      const totalD = (quantidade / 1000) * CONFIG.goldRates.usdt;
       listaOuroGlobal = calcularListaOuro(quantidade);
       
       // Animação de contagem para os totais
@@ -1465,13 +1515,6 @@
       animateCounter("totalDOuro", totalD.toFixed(2));
       
       document.getElementById("quantidadeAnunciada").innerText = listaOuroGlobal.join(", ");
-      
-      // Atualiza o mini painel
-      document.getElementById("rate10k").innerText = goldRateBase.toFixed(2);
-      document.getElementById("rate10kAbove").innerText = goldRate10k.toFixed(2);
-      document.getElementById("rate20kAbove").innerText = goldRate20k.toFixed(2);
-      document.getElementById("rate30kAbove").innerText = goldRate30k.toFixed(2);
-      document.getElementById("rateDollar").innerText = goldRateD.toFixed(2);
       
       // Adicionar efeito de digitação
       document.getElementById("quantidadeOuro").classList.add("typing-effect");
@@ -1547,11 +1590,14 @@
     
     function calculateGoldFromReal() {
       const valor = parseFloat(document.getElementById("inputReal").value) || 0;
-      let rateForConversion = goldRateBase;
+      let rateForConversion = CONFIG.goldRates.base;
       
-      if (valor / goldRateBase * 1000 >= 30000) rateForConversion = goldRate30k;
-      else if (valor / goldRateBase * 1000 >= 20000) rateForConversion = goldRate20k;
-      else if (valor / goldRateBase * 1000 >= 10000) rateForConversion = goldRate10k;
+      // Estimar a quantidade de gold para definir a taxa correta
+      const estimatedGold = (valor * 1000) / rateForConversion;
+
+      if (estimatedGold >= 30000) rateForConversion = CONFIG.goldRates.above30k;
+      else if (estimatedGold >= 20000) rateForConversion = CONFIG.goldRates.above20k;
+      else if (estimatedGold >= 10000) rateForConversion = CONFIG.goldRates.above10k;
       
       const gold = (valor * 1000) / rateForConversion;
       
@@ -1570,7 +1616,7 @@
     
     function calculateGoldFromDollar() {
       const valor = parseFloat(document.getElementById("inputDollar").value) || 0;
-      const gold = (valor * 1000) / goldRateD;
+      const gold = (valor * 1000) / CONFIG.goldRates.usdt;
       
       // Animação de contagem
       animateGoldResult("resultadoDollar", gold);
@@ -1620,7 +1666,7 @@
 
         grupo.forEach(pacote => {
           const quantidade = pacoteQuantidades[pacote];
-          const preco = pacotePrecos[pacote];
+          const preco = CONFIG.topUpPackages[pacote].price;
           subtotalR += quantidade * preco * exchangeRate;
           subtotalD += quantidade * preco;
         });
@@ -1712,7 +1758,7 @@
         let hasGold = false;
         let hasTopUp = false;
         let totalGeralR = 0;
-        const cardFeePercentage = 0.06; // 6%
+        const cardFeePercentage = CONFIG.cardFeePercentage;
 
         // 1. Coletar dados de Gold
         const quantidadeOuro = parseInt(document.getElementById("quantidadeOuro").value) || 0;
@@ -1745,7 +1791,7 @@
         Object.keys(pacoteQuantidades).forEach(pacote => {
             if (pacoteQuantidades[pacote] > 0) {
                 hasTopUp = true;
-                const subtotalR = pacoteQuantidades[pacote] * pacotePrecos[pacote] * exchangeRate;
+                const subtotalR = pacoteQuantidades[pacote] * CONFIG.topUpPackages[pacote].price * exchangeRate;
                 pacotesTexto += `        Pacote de $${pacote}: ${pacoteQuantidades[pacote]} (Total R$${subtotalR.toFixed(2)})\n`;
                 totalPacotesR += subtotalR;
             }
@@ -1786,7 +1832,7 @@
             const totalComTaxaCartao = totalGeralR * (1 + cardFeePercentage);
             
             texto += '\n        💳 PAGAMENTO NO CARTÃO 💳\n';
-            texto += `        Total a Pagar (com 6% de taxa do cartão): R$${totalComTaxaCartao.toFixed(2)}\n`;
+            texto += `        Total a Pagar (com ${cardFeePercentage * 100}% de taxa do cartão): R$${totalComTaxaCartao.toFixed(2)}\n`;
             texto += `        Link para pagamento (Mercado Pago): https://link.mercadopago.com.br/daoshicashstore\n`;
             texto += '        -----------------------------\n';
 
@@ -1836,8 +1882,8 @@
       Object.keys(pacoteQuantidades).forEach(pacote => {
         if (pacoteQuantidades[pacote] > 0) {
           hasTopUp = true;
-          const subtotalR = pacoteQuantidades[pacote] * pacotePrecos[pacote] * exchangeRate;
-          const subtotalD = pacoteQuantidades[pacote] * pacotePrecos[pacote];
+          const subtotalR = pacoteQuantidades[pacote] * CONFIG.topUpPackages[pacote].price * exchangeRate;
+          const subtotalD = pacoteQuantidades[pacote] * CONFIG.topUpPackages[pacote].price;
           pacotesTexto += `        Pacote de $${pacote}: ${pacoteQuantidades[pacote]} (Total R$${subtotalR.toFixed(2)})\n`;
           totalPacotesR += subtotalR;
           totalPacotesD += subtotalD;
@@ -2006,8 +2052,10 @@
         // Atualiza os totais com a nova cotação
         updatePacoteTotals();
       } catch (error) {
-        document.getElementById('cotacao').innerText = 'Erro ao carregar cotação';
-        console.error('Erro ao buscar cotação da Binance:', error);
+        document.getElementById('cotacao').innerHTML = `Cotação USDT/BRL: <span class="value">R$${exchangeRate.toFixed(2)}</span> (Padrão)`;
+        console.error('Erro ao buscar cotação da Binance, usando valor padrão:', error);
+        // Garante que os cálculos usem a cotação padrão se a API falhar
+        updatePacoteTotals();
       }
     }
   </script>
