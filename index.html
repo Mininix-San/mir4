@@ -481,6 +481,7 @@
       background: rgba(0, 0, 0, 0.2);
       border-radius: 6px;
       animation: pulse 2s infinite;
+      flex-grow: 1; /* NEW: make it take up available space */
     }
     
     @keyframes pulse {
@@ -759,6 +760,60 @@
       font-size: 0.75rem;
       margin-right: 4px;
     }
+    
+    /* ======================================= */
+    /* ========= NOVOS ESTILOS - INÍCIO ======== */
+    /* ======================================= */
+    
+    /* Estilo para exibir o total bruto de gold a ser anunciado */
+    .gross-gold-display {
+      font-size: 0.75rem;
+      color: var(--accent-color);
+      text-align: right;
+      margin-top: -8px; /* Puxa para mais perto do input */
+      padding-right: 4px;
+      height: 14px; /* Garante espaço fixo */
+    }
+    
+    /* Container para o resultado da conversão e o novo botão */
+    .calc-result-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    
+    /* Estilo para o novo botão de enviar para o input de gold */
+    .send-to-gold-btn {
+      background: var(--button-primary);
+      border: none;
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      flex-shrink: 0; /* Impede que o botão encolha */
+    }
+    
+    .send-to-gold-btn:hover {
+      background: var(--button-hover);
+      transform: scale(1.1);
+    }
+    
+    .send-to-gold-btn:active {
+      background: var(--button-active);
+      transform: scale(1);
+    }
+
+    /* ======================================= */
+    /* ========== NOVOS ESTILOS - FIM ========== */
+    /* ======================================= */
   </style>
 </head>
 <body>
@@ -783,6 +838,7 @@
         <div class="form-group">
           <label for="quantidadeOuro">Quantidade de Ouro:</label>
           <input type="number" id="quantidadeOuro" value="0" oninput="updateOuroCalculations()">
+          <div class="gross-gold-display" id="grossGoldDisplay"></div>
         </div>
         
         <div class="form-group">
@@ -835,12 +891,18 @@
             <div class="form-group">
               <label for="inputReal">Converter R$ para Gold:</label>
               <input type="number" id="inputReal" placeholder="Digite valor em R$" oninput="calculateGoldFromReal()" value="0">
-              <div class="calc-result" id="resultadoReal">≈0 Gold</div>
+              <div class="calc-result-container">
+                <div class="calc-result" id="resultadoReal">≈0 Gold</div>
+                <button class="send-to-gold-btn" onclick="sendToGold('real')" title="Enviar para o cálculo de Ouro">➔</button>
+              </div>
             </div>
             <div class="form-group">
               <label for="inputDollar">Converter USDT para Gold:</label>
               <input type="number" id="inputDollar" placeholder="Digite valor em USDT" oninput="calculateGoldFromDollar()" value="0">
-              <div class="calc-result" id="resultadoDollar">≈0 Gold</div>
+              <div class="calc-result-container">
+                <div class="calc-result" id="resultadoDollar">≈0 Gold</div>
+                <button class="send-to-gold-btn" onclick="sendToGold('dollar')" title="Enviar para o cálculo de Ouro">➔</button>
+              </div>
             </div>
           </div>
         </div>
@@ -1080,11 +1142,11 @@
 
         // Preços para compra de Gold (valor em R$ para cada 1.000 de ouro)
         goldRates: {
-            base: 24.00,       // Taxa padrão (até 10k)
-            above10k: 22.00,   // Taxa para valores acima de 10k
-            above20k: 20.50,   // Taxa para valores acima de 20k
-            above30k: 20.50,   // Taxa para valores acima de 30k
-            usdt: 3.65         // Preço em USDT (para cada 1.000 de ouro)
+            base: 24.00,      // Taxa padrão (até 10k)
+            above10k: 22.00,    // Taxa para valores acima de 10k
+            above20k: 20.50,    // Taxa para valores acima de 20k
+            above30k: 20.50,    // Taxa para valores acima de 30k
+            usdt: 3.65        // Preço em USDT (para cada 1.000 de ouro)
         },
 
         // Preços dos pacotes de Top Up (preços com desconto, em Dólares/USDT)
@@ -1514,8 +1576,17 @@
       animateCounter("totalROuro", totalR.toFixed(2));
       animateCounter("totalDOuro", totalD.toFixed(2));
       
-      document.getElementById("quantidadeAnunciada").innerText = listaOuroGlobal.join(", ");
+      document.getElementById("quantidadeAnunciada").innerText = listaOuroGlobal.join(", ") || '0';
       
+      // NOVO: Atualiza o display do total bruto
+      const grossGoldDisplay = document.getElementById('grossGoldDisplay');
+      if (quantidade > 0) {
+        const quantidadeAnunciadaTotal = Math.floor(quantidade + (quantidade * 5.3 / 100));
+        grossGoldDisplay.innerText = `(Anunciar: ${quantidadeAnunciadaTotal})`;
+      } else {
+        grossGoldDisplay.innerText = '';
+      }
+
       // Adicionar efeito de digitação
       document.getElementById("quantidadeOuro").classList.add("typing-effect");
       setTimeout(() => {
@@ -1527,12 +1598,14 @@
     }
     
     function calcularListaOuro(quantidade) {
+      if (quantidade <= 0) return [];
       const quantidadeAnunciada = Math.floor(quantidade + (quantidade * 5.3 / 100));
       let divisao = quantidade >= 20000 ? Math.ceil(quantidade / 5000) : Math.ceil(quantidade / 2500);
       return dividirEmPartes(quantidadeAnunciada, divisao, quantidade);
     }
     
     function dividirEmPartes(total, partes, quantidade) {
+      if (partes === 0) return [];
       let min, max;
       if (quantidade >= 20000) {
         min = Math.floor(total / partes * 0.9);
@@ -1701,7 +1774,7 @@
           }
         } else {
           // If source is an ID but element not found, use the source string itself as content
-          textToCopy = source; 
+          textToCopy = source;  
           console.warn(`Element with ID "${source}" not found. Copying ID string as text.`);
         }
       } else {
@@ -1731,8 +1804,8 @@
 
         // Optional: trigger flower animation for important copies
         // Only trigger if it's NOT the "secret message" button (to avoid double flowers)
-        if (message.includes("copiado") || message.includes("copiada") && !message.includes("Mensagem copiada com sucesso!")) { 
-          for (let i = 0; i < 5; i++) { 
+        if (message.includes("copiado") || message.includes("copiada") && !message.includes("Mensagem copiada com sucesso!")) {  
+          for (let i = 0; i < 5; i++) {  
             setTimeout(createFlower, i * 100);
           }
         }
@@ -1763,16 +1836,17 @@
         // 1. Coletar dados de Gold
         const quantidadeOuro = parseInt(document.getElementById("quantidadeOuro").value) || 0;
         const servidor = document.getElementById("servidor").value;
-        const totalROuroElement = document.getElementById("totalROuro");
         let totalROuro = 0;
 
-        if (totalROuroElement) {
-            totalROuro = parseFloat(totalROuroElement.innerText) || 0;
-        }
-        
         if (quantidadeOuro > 0) {
             hasGold = true;
-            const quantidadeAnunciada = document.getElementById("quantidadeAnunciada").innerText;
+            let goldRateR = CONFIG.goldRates.base;
+            if (quantidadeOuro >= 30000) goldRateR = CONFIG.goldRates.above30k;
+            else if (quantidadeOuro >= 20000) goldRateR = CONFIG.goldRates.above20k;
+            else if (quantidadeOuro >= 10000) goldRateR = CONFIG.goldRates.above10k;
+            totalROuro = (quantidadeOuro / 1000) * goldRateR;
+            
+            const quantidadeAnunciada = calcularListaOuro(quantidadeOuro).join(', ');
             
             texto += '        -----------------------------\n';
             texto += '        🌟 GOLD DAOSHI 🌟\n';
@@ -1787,7 +1861,6 @@
         let pacotesTexto = '';
         let totalPacotesR = 0;
         
-        // Calcular totalPacotesR somando os subtotais diretamente
         Object.keys(pacoteQuantidades).forEach(pacote => {
             if (pacoteQuantidades[pacote] > 0) {
                 hasTopUp = true;
@@ -1848,33 +1921,44 @@
         }
     }
 
-    // ===== FUNÇÕES DE CÓPIA INTELIGENTE (EXISTENTES, ADAPTADAS) =====
-    
-    function copySmartClipboard(event) { 
+    // ===== FUNÇÃO DE CÓPIA INTELIGENTE (MODIFICADA) =====
+    // Esta função agora recalcula os valores para garantir precisão, ignorando a animação.
+    function copySmartClipboard(event) {  
       let texto = '';
       let hasGold = false;
       let hasTopUp = false;
       
-      // Verificar se há dados de Gold
+      // ---- Início do Recálculo dos Valores ----
+      
+      // 1. Recalcular dados de Gold
       const quantidadeOuro = parseInt(document.getElementById("quantidadeOuro").value) || 0;
       const servidor = document.getElementById("servidor").value;
       
+      let totalROuro = 0;
+      let totalDOuro = 0;
+      let quantidadeAnunciada = '';
+
       if (quantidadeOuro > 0) {
         hasGold = true;
-        const totalROuro = document.getElementById("totalROuro").innerText;
-        const totalDOuro = document.getElementById("totalDOuro").innerText;
-        const quantidadeAnunciada = document.getElementById("quantidadeAnunciada").innerText;
+        let goldRateR = CONFIG.goldRates.base;
+        if (quantidadeOuro >= 30000) goldRateR = CONFIG.goldRates.above30k;
+        else if (quantidadeOuro >= 20000) goldRateR = CONFIG.goldRates.above20k;
+        else if (quantidadeOuro >= 10000) goldRateR = CONFIG.goldRates.above10k;
+        
+        totalROuro = (quantidadeOuro / 1000) * goldRateR;
+        totalDOuro = (quantidadeOuro / 1000) * CONFIG.goldRates.usdt;
+        quantidadeAnunciada = calcularListaOuro(quantidadeOuro).join(', ');
         
         texto += '        -----------------------------\n';
         texto += '        🌟 GOLD DAOSHI 🌟\n';
         if (servidor) texto += `        Servidor: ${servidor}\n`;
-        texto += `        Total em R$: ${totalROuro}\n`;
-        texto += `        Total em $: ${totalDOuro}\n`;
+        texto += `        Total em R$: ${totalROuro.toFixed(2)}\n`;
+        texto += `        Total em $: ${totalDOuro.toFixed(2)}\n`;
         texto += `        Quantidade de Ouro a anunciar: ${quantidadeAnunciada}\n`;
         texto += '        -----------------------------\n';
       }
       
-      // Verificar se há dados de Top Up
+      // 2. Recalcular dados de Top Up
       let pacotesTexto = '';
       let totalPacotesR = 0;
       let totalPacotesD = 0;
@@ -1882,8 +1966,9 @@
       Object.keys(pacoteQuantidades).forEach(pacote => {
         if (pacoteQuantidades[pacote] > 0) {
           hasTopUp = true;
-          const subtotalR = pacoteQuantidades[pacote] * CONFIG.topUpPackages[pacote].price * exchangeRate;
-          const subtotalD = pacoteQuantidades[pacote] * CONFIG.topUpPackages[pacote].price;
+          const precoD = CONFIG.topUpPackages[pacote].price;
+          const subtotalD = pacoteQuantidades[pacote] * precoD;
+          const subtotalR = subtotalD * exchangeRate;
           pacotesTexto += `        Pacote de $${pacote}: ${pacoteQuantidades[pacote]} (Total R$${subtotalR.toFixed(2)})\n`;
           totalPacotesR += subtotalR;
           totalPacotesD += subtotalD;
@@ -1900,7 +1985,6 @@
         texto += `        Total dos Pacotes:\n        Total em R$: ${totalPacotesR.toFixed(2)}\n        Total em $: ${totalPacotesD.toFixed(2)}\n`;
         texto += '        -----------------------------\n';
         
-        // Adicionar informações da conta se preenchidas
         let login = document.getElementById('login').value;
         let password = document.getElementById('password').value;
         let nickname = document.getElementById('nickname').value;
@@ -1920,10 +2004,10 @@
         }
       }
       
-      // Calcular total geral se ambos estiverem preenchidos
+      // 3. Recalcular total geral
       if (hasGold && hasTopUp) {
-        const totalGeralR = parseFloat(document.getElementById("totalROuro").innerText) + totalPacotesR;
-        const totalGeralD = parseFloat(document.getElementById("totalDOuro").innerText) + totalPacotesD;
+        const totalGeralR = totalROuro + totalPacotesR;
+        const totalGeralD = totalDOuro + totalPacotesD;
         
         texto += '\n        💰 TOTAL GERAL 💰\n';
         texto += `        Total em R$: ${totalGeralR.toFixed(2)}\n`;
@@ -1931,23 +2015,26 @@
         texto += '        -----------------------------\n';
       }
       
-      // Sempre adicionar informações de PIX e Binance
+      // ---- Fim do Recálculo ----
+      
+      if (!hasGold && !hasTopUp) {
+        showTooltip("Preencha pelo menos Gold ou Top Up!", event ? event.clientX : 0, event ? event.clientY : 0);
+        return;
+      }
+      
       texto += '\n        🌸 INFORMAÇÕES DE PAGAMENTO 🌸\n';
       texto += '        PIX: 14988231270\n';
       texto += '        Nome: DAOSHI TRADE\n';
       texto += '        Binance: estrela203@hotmail.com\n';
       texto += '        -----------------------------\n';
       
-      if (texto && (hasGold || hasTopUp)) {
-        copyContent(texto, "Informações copiadas!", event); 
-      } else {
-        showTooltip("Preencha pelo menos Gold ou Top Up!", event ? event.clientX : 0, event ? event.clientY : 0);
-      }
+      copyContent(texto, "Informações copiadas!", event);  
     }
+
     
-    function copyMessageToClipboard(event) { 
+    function copyMessageToClipboard(event) {  
       const text = `Ai você me encaminha o comprovante aqui na mensagem. Pois eu sou a irmã da Daoshi e não tô com acesso a conta ^^ 🌺~`;
-      copyContent(text, "Mensagem copiada com sucesso!", event); 
+      copyContent(text, "Mensagem copiada com sucesso!", event);  
       // Criar mais flores ao copiar a mensagem secreta (mantido aqui para o efeito específico)
       for (let i = 0; i < 10; i++) {
         setTimeout(createFlower, i * 200);
@@ -2009,17 +2096,24 @@
       
       let currentStep = 0;
       
-      const interval = setInterval(() => {
+      // Se houver uma animação em andamento neste elemento, pare-a
+      if (element.intervalId) {
+          clearInterval(element.intervalId);
+      }
+
+      element.intervalId = setInterval(() => {
         currentStep++;
         const currentValue = startValue + (increment * currentStep);
         element.textContent = currentValue.toFixed(2);
         
         if (currentStep >= steps) {
-          clearInterval(interval);
+          clearInterval(element.intervalId);
           element.textContent = finalValue;
+          element.intervalId = null; // Limpa o ID do intervalo
         }
       }, duration / steps);
     }
+
     
     // Função para limpar o campo quando clicado
     function clearInputOnClick(inputId) {
@@ -2058,6 +2152,30 @@
         updatePacoteTotals();
       }
     }
+
+    // ===============================================
+    // ========= NOVA FUNÇÃO DE ENVIO RÁPIDO =========
+    // ===============================================
+    function sendToGold(source) {
+        const resultElementId = source === 'real' ? 'resultadoReal' : 'resultadoDollar';
+        const resultElement = document.getElementById(resultElementId);
+        
+        if (resultElement) {
+            // Extrai apenas os números do texto (ex: "≈1234 Gold" -> "1234")
+            const goldValue = parseInt(resultElement.textContent.replace(/\D/g, ''), 10) || 0;
+            
+            const goldInput = document.getElementById('quantidadeOuro');
+            goldInput.value = goldValue;
+            
+            // Dispara a atualização dos cálculos de ouro
+            updateOuroCalculations();
+            
+            // Feedback para o usuário
+            playSound('success');
+            showTooltip(`Valor ${goldValue} enviado para o cálculo!`, window.innerWidth / 2, window.innerHeight / 2);
+        }
+    }
+
   </script>
 </body>
 </html>
