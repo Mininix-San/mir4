@@ -1567,6 +1567,8 @@
         goldRateR = CONFIG.goldRates.above20k;
       } else if (quantidade >= 10000) {
         goldRateR = CONFIG.goldRates.above10k;
+         } else if (quantidade >= 5000) {
+        goldRateR = CONFIG.goldRates.above5k;
       }
       
       const totalR = (quantidade / 1000) * goldRateR;
@@ -1672,6 +1674,7 @@
       if (estimatedGold >= 30000) rateForConversion = CONFIG.goldRates.above30k;
       else if (estimatedGold >= 20000) rateForConversion = CONFIG.goldRates.above20k;
       else if (estimatedGold >= 10000) rateForConversion = CONFIG.goldRates.above10k;
+      else if (estimatedGold >= 5000) rateForConversion = CONFIG.goldRates.above5k;
       
       const gold = (valor * 1000) / rateForConversion;
       
@@ -1845,6 +1848,7 @@
             if (quantidadeOuro >= 30000) goldRateR = CONFIG.goldRates.above30k;
             else if (quantidadeOuro >= 20000) goldRateR = CONFIG.goldRates.above20k;
             else if (quantidadeOuro >= 10000) goldRateR = CONFIG.goldRates.above10k;
+            else if (quantidadeOuro >= 5000) goldRateR = CONFIG.goldRates.above5k;
             totalROuro = (quantidadeOuro / 1000) * goldRateR;
             
             const quantidadeAnunciada = calcularListaOuro(quantidadeOuro).join(', ');
@@ -1945,6 +1949,7 @@
         if (quantidadeOuro >= 30000) goldRateR = CONFIG.goldRates.above30k;
         else if (quantidadeOuro >= 20000) goldRateR = CONFIG.goldRates.above20k;
         else if (quantidadeOuro >= 10000) goldRateR = CONFIG.goldRates.above10k;
+        else if (quantidadeOuro >= 5000) goldRateR = CONFIG.goldRates.above5k;
         
         totalROuro = (quantidadeOuro / 1000) * goldRateR;
         totalDOuro = (quantidadeOuro / 1000) * CONFIG.goldRates.usdt;
@@ -2180,6 +2185,7 @@
   </script>
 </body>
 </html>
+
 
 
 
