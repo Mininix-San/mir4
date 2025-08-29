@@ -1546,22 +1546,21 @@
     
     // ===== FUNÇÕES DE CÁLCULO DE OURO =====
     
-    function updateOuroCalculations() {
+   function updateOuroCalculations() {
       const quantidade = parseInt(document.getElementById("quantidadeOuro").value) || 0;
       let goldRateR = CONFIG.goldRates.base;
-      
-      if (quantidade >= 30000) {
-        goldRateR = CONFIG.goldRates.above30k;
-      } else if (quantidade >= 20000) {
+
+      if (quantidade >= 20000) {
         goldRateR = CONFIG.goldRates.above20k;
       } else if (quantidade >= 10000) {
         goldRateR = CONFIG.goldRates.above10k;
-         } else if (quantidade >= 5000) {
+      } else if (quantidade >= 5000) {
         goldRateR = CONFIG.goldRates.above5k;
       }
-      
+
       const totalR = (quantidade / 1000) * goldRateR;
       const totalD = (quantidade / 1000) * CONFIG.goldRates.usdt;
+
       listaOuroGlobal = calcularListaOuro(quantidade);
       
       // Animação de contagem para os totais
@@ -2174,6 +2173,7 @@
   </script>
 </body>
 </html>
+
 
 
 
