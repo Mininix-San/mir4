@@ -1126,30 +1126,20 @@
     <input type="range" min="0" max="100" value="70" id="volumeRange">
   </div>
   
-  <script>
+   <script>
     // ===================================================================
     // ============= ⚙️ ÁREA DE CONFIGURAÇÃO DE PREÇOS ⚙️ =============
     // ===================================================================
-    // Altere os valores aqui. Todas as calculadoras e exibições
-    // serão atualizadas automaticamente.
-    // ===================================================================
     const CONFIG = {
-        // Cotação padrão do Dólar (USDT). Será atualizada pela API da Binance se disponível.
         defaultExchangeRate: 5.88,
-
-        // Taxa para pagamento com cartão de crédito (ex: 0.06 = 6%)
         cardFeePercentage: 0.06,
-
-        // Preços para compra de Gold (valor em R$ para cada 1.000 de ouro)
         goldRates: {
-            base: 37.00,      // Taxa padrão (até 5k)
-            above5k: 34.00,    // Taxa para valores acima de 5k
-            above10k: 32.00,    // Taxa para valores acima de 10k
-            above20k: 32.00,    // Taxa para valores acima de 20k
-            usdt: 5.60        // Preço em USDT (para cada 1.000 de ouro)
+            base: 37.00,      // Até 5k
+            above5k: 34.00,   // 5k até 9.999
+            above10k: 32.00,  // 10k até 19.999
+            above20k: 30.00,  // 20k+
+            usdt: 5.60        // Preço fixo em USDT (1k gold)
         },
-
-        // Preços dos pacotes de Top Up (preços com desconto, em Dólares/USDT)
         topUpPackages: {
             1:   { price: 0.90 },
             3:   { price: 2.62 },
@@ -1159,7 +1149,6 @@
             50:  { price: 38.50 },
             100: { price: 76.00 }
         }
-    };
     // ===================================================================
     // ============ ⚠️ FIM DA ÁREA DE CONFIGURAÇÃO ⚠️ ============
     // ===================================================================
@@ -2185,6 +2174,7 @@
   </script>
 </body>
 </html>
+
 
 
 
