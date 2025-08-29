@@ -864,12 +864,8 @@
         <div class="rates-title">Taxas de Conversão</div>
         <div class="rates-grid">
           <div class="rate-item">
-            <div class="rate-label">💲 <span>Até 5k</span></div>
-            <div class="rate-value">R$<span id="rate5k">0.00</span></div>
-          </div>
-          <div class="rate-item">
-            <div class="rate-label">💲 <span>Acima de 5k</span></div>
-            <div class="rate-value">R$<span id="rate5kAbove">0.00</span></div>
+            <div class="rate-label">💲 <span>Até 10k</span></div>
+            <div class="rate-value">R$<span id="rate10k">0.00</span></div>
           </div>
           <div class="rate-item">
             <div class="rate-label">💲 <span>Acima de 10k</span></div>
@@ -878,6 +874,10 @@
           <div class="rate-item">
             <div class="rate-label">💲 <span>Acima de 20k</span></div>
             <div class="rate-value">R$<span id="rate20kAbove">0.00</span></div>
+          </div>
+          <div class="rate-item">
+            <div class="rate-label">💲 <span>Acima de 30k</span></div>
+            <div class="rate-value">R$<span id="rate30kAbove">0.00</span></div>
           </div>
           <div class="rate-item">
             <div class="rate-label">💲 <span>Valor cada 1k em $ (USDT)</span></div>
@@ -1126,20 +1126,30 @@
     <input type="range" min="0" max="100" value="70" id="volumeRange">
   </div>
   
-   <script>
+  <script>
     // ===================================================================
     // ============= ⚙️ ÁREA DE CONFIGURAÇÃO DE PREÇOS ⚙️ =============
     // ===================================================================
+    // Altere os valores aqui. Todas as calculadoras e exibições
+    // serão atualizadas automaticamente.
+    // ===================================================================
     const CONFIG = {
+        // Cotação padrão do Dólar (USDT). Será atualizada pela API da Binance se disponível.
         defaultExchangeRate: 5.88,
+
+        // Taxa para pagamento com cartão de crédito (ex: 0.06 = 6%)
         cardFeePercentage: 0.06,
+
+        // Preços para compra de Gold (valor em R$ para cada 1.000 de ouro)
         goldRates: {
-            base: 37.00,      // Até 5k
-            above5k: 34.00,   // 5k até 9.999
-            above10k: 32.00,  // 10k até 19.999
-            above20k: 30.00,  // 20k+
-            usdt: 5.60        // Preço fixo em USDT (1k gold)
+            base: 34.00,      // Taxa padrão (até 10k)
+            above10k: 32.00,    // Taxa para valores acima de 10k
+            above20k: 30.00,    // Taxa para valores acima de 20k
+            above30k: 30.00,    // Taxa para valores acima de 30k
+            usdt: 5.60        // Preço em USDT (para cada 1.000 de ouro)
         },
+
+        // Preços dos pacotes de Top Up (preços com desconto, em Dólares/USDT)
         topUpPackages: {
             1:   { price: 0.90 },
             3:   { price: 2.62 },
@@ -1149,6 +1159,7 @@
             50:  { price: 38.50 },
             100: { price: 76.00 }
         }
+    };
     // ===================================================================
     // ============ ⚠️ FIM DA ÁREA DE CONFIGURAÇÃO ⚠️ ============
     // ===================================================================
@@ -1234,8 +1245,7 @@
      */
     function initializeUIFromConfig() {
         // Atualiza a tabela de taxas de Gold
-        document.getElementById('rate5k').innerText = CONFIG.goldRates.base.toFixed(2);
-        document.getElementById('rate5kAbove').innerText = CONFIG.goldRates.above5k.toFixed(2);
+        document.getElementById('rate10k').innerText = CONFIG.goldRates.base.toFixed(2);
         document.getElementById('rate10kAbove').innerText = CONFIG.goldRates.above10k.toFixed(2);
         document.getElementById('rate20kAbove').innerText = CONFIG.goldRates.above20k.toFixed(2);
         document.getElementById('rate30kAbove').innerText = CONFIG.goldRates.above30k.toFixed(2);
@@ -1546,21 +1556,20 @@
     
     // ===== FUNÇÕES DE CÁLCULO DE OURO =====
     
-   function updateOuroCalculations() {
+    function updateOuroCalculations() {
       const quantidade = parseInt(document.getElementById("quantidadeOuro").value) || 0;
       let goldRateR = CONFIG.goldRates.base;
-
-      if (quantidade >= 20000) {
+      
+      if (quantidade >= 30000) {
+        goldRateR = CONFIG.goldRates.above30k;
+      } else if (quantidade >= 20000) {
         goldRateR = CONFIG.goldRates.above20k;
       } else if (quantidade >= 10000) {
         goldRateR = CONFIG.goldRates.above10k;
-      } else if (quantidade >= 5000) {
-        goldRateR = CONFIG.goldRates.above5k;
       }
-
+      
       const totalR = (quantidade / 1000) * goldRateR;
       const totalD = (quantidade / 1000) * CONFIG.goldRates.usdt;
-
       listaOuroGlobal = calcularListaOuro(quantidade);
       
       // Animação de contagem para os totais
@@ -1662,7 +1671,6 @@
       if (estimatedGold >= 30000) rateForConversion = CONFIG.goldRates.above30k;
       else if (estimatedGold >= 20000) rateForConversion = CONFIG.goldRates.above20k;
       else if (estimatedGold >= 10000) rateForConversion = CONFIG.goldRates.above10k;
-      else if (estimatedGold >= 5000) rateForConversion = CONFIG.goldRates.above5k;
       
       const gold = (valor * 1000) / rateForConversion;
       
@@ -1836,7 +1844,6 @@
             if (quantidadeOuro >= 30000) goldRateR = CONFIG.goldRates.above30k;
             else if (quantidadeOuro >= 20000) goldRateR = CONFIG.goldRates.above20k;
             else if (quantidadeOuro >= 10000) goldRateR = CONFIG.goldRates.above10k;
-            else if (quantidadeOuro >= 5000) goldRateR = CONFIG.goldRates.above5k;
             totalROuro = (quantidadeOuro / 1000) * goldRateR;
             
             const quantidadeAnunciada = calcularListaOuro(quantidadeOuro).join(', ');
@@ -1937,7 +1944,6 @@
         if (quantidadeOuro >= 30000) goldRateR = CONFIG.goldRates.above30k;
         else if (quantidadeOuro >= 20000) goldRateR = CONFIG.goldRates.above20k;
         else if (quantidadeOuro >= 10000) goldRateR = CONFIG.goldRates.above10k;
-        else if (quantidadeOuro >= 5000) goldRateR = CONFIG.goldRates.above5k;
         
         totalROuro = (quantidadeOuro / 1000) * goldRateR;
         totalDOuro = (quantidadeOuro / 1000) * CONFIG.goldRates.usdt;
@@ -2173,15 +2179,6 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
 
 
 
