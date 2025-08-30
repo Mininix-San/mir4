@@ -864,20 +864,20 @@
         <div class="rates-title">Taxas de Conversão</div>
         <div class="rates-grid">
           <div class="rate-item">
-            <div class="rate-label">💲 <span>Até 10k</span></div>
+            <div class="rate-label">💲 <span>1k+</span></div>
+            <div class="rate-value">R$<span id="rate1k">0.00</span></div>
+          </div>
+          <div class="rate-item">
+            <div class="rate-label">💲 <span>5k+</span></div>
+            <div class="rate-value">R$<span id="rate5k">0.00</span></div>
+          </div>
+          <div class="rate-item">
+            <div class="rate-label">💲 <span>10k+</span></div>
             <div class="rate-value">R$<span id="rate10k">0.00</span></div>
           </div>
           <div class="rate-item">
-            <div class="rate-label">💲 <span>Acima de 10k</span></div>
-            <div class="rate-value">R$<span id="rate10kAbove">0.00</span></div>
-          </div>
-          <div class="rate-item">
-            <div class="rate-label">💲 <span>Acima de 20k</span></div>
-            <div class="rate-value">R$<span id="rate20kAbove">0.00</span></div>
-          </div>
-          <div class="rate-item">
-            <div class="rate-label">💲 <span>Acima de 30k</span></div>
-            <div class="rate-value">R$<span id="rate30kAbove">0.00</span></div>
+            <div class="rate-label">💲 <span>20k+</span></div>
+            <div class="rate-value">R$<span id="rate20k">0.00</span></div>
           </div>
           <div class="rate-item">
             <div class="rate-label">💲 <span>Valor cada 1k em $ (USDT)</span></div>
@@ -1142,11 +1142,11 @@
 
         // Preços para compra de Gold (valor em R$ para cada 1.000 de ouro)
         goldRates: {
-            base: 35.00,      // Taxa padrão (até 10k)
-            above10k: 32.00,    // Taxa para valores acima de 10k
-            above20k: 30.00,    // Taxa para valores acima de 20k
-            above30k: 30.00,    // Taxa para valores acima de 30k
-            usdt: 5.60        // Preço em USDT (para cada 1.000 de ouro)
+            base: 37.00,       // Taxa para 1k+ (até 4999)
+            above5k: 34.00,    // Taxa para 5k+ (até 9999)
+            above10k: 32.00,   // Taxa para 10k+ (até 19999)
+            above20k: 30.00,   // Taxa para 20k+
+            usdt: 5.60         // Preço em USDT (para cada 1.000 de ouro)
         },
 
         // Preços dos pacotes de Top Up (preços com desconto, em Dólares/USDT)
@@ -1245,10 +1245,10 @@
      */
     function initializeUIFromConfig() {
         // Atualiza a tabela de taxas de Gold
-        document.getElementById('rate10k').innerText = CONFIG.goldRates.base.toFixed(2);
-        document.getElementById('rate10kAbove').innerText = CONFIG.goldRates.above10k.toFixed(2);
-        document.getElementById('rate20kAbove').innerText = CONFIG.goldRates.above20k.toFixed(2);
-        document.getElementById('rate30kAbove').innerText = CONFIG.goldRates.above30k.toFixed(2);
+        document.getElementById('rate1k').innerText = CONFIG.goldRates.base.toFixed(2);
+        document.getElementById('rate5k').innerText = CONFIG.goldRates.above5k.toFixed(2);
+        document.getElementById('rate10k').innerText = CONFIG.goldRates.above10k.toFixed(2);
+        document.getElementById('rate20k').innerText = CONFIG.goldRates.above20k.toFixed(2);
         document.getElementById('rateDollar').innerText = CONFIG.goldRates.usdt.toFixed(2);
 
         // Atualiza os preços exibidos nos pacotes de Top Up
@@ -1418,7 +1418,7 @@
           const initialVolume = volumeRange.value / 100;
           masterGainNode.gain.value = initialVolume;
           if (backgroundMusic) {
-              backgroundMusic.volume = initialVolume * 0.7;
+            backgroundMusic.volume = initialVolume * 0.7;
           }
       }
     }
@@ -1560,12 +1560,12 @@
       const quantidade = parseInt(document.getElementById("quantidadeOuro").value) || 0;
       let goldRateR = CONFIG.goldRates.base;
       
-      if (quantidade >= 30000) {
-        goldRateR = CONFIG.goldRates.above30k;
-      } else if (quantidade >= 20000) {
+      if (quantidade >= 20000) {
         goldRateR = CONFIG.goldRates.above20k;
       } else if (quantidade >= 10000) {
         goldRateR = CONFIG.goldRates.above10k;
+      } else if (quantidade >= 5000) {
+        goldRateR = CONFIG.goldRates.above5k;
       }
       
       const totalR = (quantidade / 1000) * goldRateR;
@@ -1668,9 +1668,9 @@
       // Estimar a quantidade de gold para definir a taxa correta
       const estimatedGold = (valor * 1000) / rateForConversion;
 
-      if (estimatedGold >= 30000) rateForConversion = CONFIG.goldRates.above30k;
-      else if (estimatedGold >= 20000) rateForConversion = CONFIG.goldRates.above20k;
+      if (estimatedGold >= 20000) rateForConversion = CONFIG.goldRates.above20k;
       else if (estimatedGold >= 10000) rateForConversion = CONFIG.goldRates.above10k;
+      else if (estimatedGold >= 5000) rateForConversion = CONFIG.goldRates.above5k;
       
       const gold = (valor * 1000) / rateForConversion;
       
@@ -1841,9 +1841,9 @@
         if (quantidadeOuro > 0) {
             hasGold = true;
             let goldRateR = CONFIG.goldRates.base;
-            if (quantidadeOuro >= 30000) goldRateR = CONFIG.goldRates.above30k;
-            else if (quantidadeOuro >= 20000) goldRateR = CONFIG.goldRates.above20k;
+            if (quantidadeOuro >= 20000) goldRateR = CONFIG.goldRates.above20k;
             else if (quantidadeOuro >= 10000) goldRateR = CONFIG.goldRates.above10k;
+            else if (quantidadeOuro >= 5000) goldRateR = CONFIG.goldRates.above5k;
             totalROuro = (quantidadeOuro / 1000) * goldRateR;
             
             const quantidadeAnunciada = calcularListaOuro(quantidadeOuro).join(', ');
@@ -1890,14 +1890,14 @@
             let metodoLogin = document.getElementById('metodoLogin').value;
             
             if (login || password || nickname || level || server || metodoLogin) {
-              texto += '\n        Informações da Conta (Apenas para Top Up):\n';
-              if (login) texto += `        Login: ${login}\n`;
-              if (password) texto += `        Password: ${password}\n`;
-              if (nickname) texto += `        Nickname: ${nickname}\n`;
-              if (level) texto += `        Level: ${level}\n`;
-              if (server) texto += `        Server: ${server}\n`;
-              if (metodoLogin) texto += `        Método de Login: ${metodoLogin}\n`;
-              texto += '        -----------------------------\n';
+                texto += '\n        Informações da Conta (Apenas para Top Up):\n';
+                if (login) texto += `        Login: ${login}\n`;
+                if (password) texto += `        Password: ${password}\n`;
+                if (nickname) texto += `        Nickname: ${nickname}\n`;
+                if (level) texto += `        Level: ${level}\n`;
+                if (server) texto += `        Server: ${server}\n`;
+                if (metodoLogin) texto += `        Método de Login: ${metodoLogin}\n`;
+                texto += '        -----------------------------\n';
             }
         }
         
@@ -1941,9 +1941,9 @@
       if (quantidadeOuro > 0) {
         hasGold = true;
         let goldRateR = CONFIG.goldRates.base;
-        if (quantidadeOuro >= 30000) goldRateR = CONFIG.goldRates.above30k;
-        else if (quantidadeOuro >= 20000) goldRateR = CONFIG.goldRates.above20k;
+        if (quantidadeOuro >= 20000) goldRateR = CONFIG.goldRates.above20k;
         else if (quantidadeOuro >= 10000) goldRateR = CONFIG.goldRates.above10k;
+        else if (quantidadeOuro >= 5000) goldRateR = CONFIG.goldRates.above5k;
         
         totalROuro = (quantidadeOuro / 1000) * goldRateR;
         totalDOuro = (quantidadeOuro / 1000) * CONFIG.goldRates.usdt;
@@ -2179,23 +2179,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
