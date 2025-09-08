@@ -822,13 +822,18 @@
     }
 
     function copyPaymentDetail(method, event) {
-        let text = '';
+        let textToCopy = '';
+        let message = '';
         if (method === 'pix') {
-            text = document.getElementById('pixCelular').innerText;
+            const pixCelular = document.getElementById('pixCelular').innerText;
+            const pixNome = document.getElementById('pixNome').innerText;
+            textToCopy = `PIX: ${pixCelular}\nNome: ${pixNome}`; // MODIFICADO AQUI
+            message = 'Informações do Pix copiadas!';
         } else if (method === 'binance') {
-            text = document.getElementById('binanceEmail').innerText;
+            textToCopy = document.getElementById('binanceEmail').innerText;
+            message = 'E-mail da Binance copiado!';
         }
-        copyContent(text, `${method.charAt(0).toUpperCase() + method.slice(1)} copiado!`, event);
+        copyContent(textToCopy, message, event);
     }
     
     function getFormValues() {
@@ -887,6 +892,16 @@
         }
         const totalGeral = data.totalROuro + data.totalPacotesR;
         texto += `💰 TOTAL GERAL: R$${totalGeral.toFixed(2)}\n`;
+        
+        // MODIFICADO AQUI: Adiciona informações de pagamento ao final
+        const pixCelular = document.getElementById('pixCelular').innerText;
+        const pixNome = document.getElementById('pixNome').innerText;
+        const binanceEmail = document.getElementById('binanceEmail').innerText;
+        texto += "---------------------------------\n";
+        texto += "🌸 INFORMAÇÕES DE PAGAMENTO 🌸\n";
+        texto += `PIX (Celular): ${pixCelular}\n`;
+        texto += `Nome: ${pixNome}\n\n`;
+        texto += `Binance (Email): ${binanceEmail}\n`;
         
         copyContent(texto, "Resumo copiado!", event);
     }
