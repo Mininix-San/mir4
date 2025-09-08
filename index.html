@@ -40,7 +40,7 @@
       background-attachment: fixed;
       font-family: 'Montserrat', sans-serif;
       color: var(--text-color);
-      min-height: 100vh; /* Garante que a página ocupe pelo menos a altura da tela */
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       padding: 15px;
@@ -190,7 +190,7 @@
       backdrop-filter: blur(10px);
       padding: 20px;
       animation: fadeIn 0.6s ease forwards;
-      height: auto; /* Altura se adapta ao conteúdo */
+      height: auto;
     }
     
     .tab-content .panel {
@@ -286,10 +286,11 @@
       border-left: 4px solid var(--gold-color);
     }
     
-    .result-item { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.95rem; }
+    .result-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.95rem; }
     .result-item:last-child { margin-bottom: 0; }
     .result-label { font-weight: 500; }
     .result-value { font-weight: 700; color: var(--gold-color); }
+    .result-value small { font-size: 0.8em; opacity: 0.8; }
     
     .pacote-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px; }
     .pacote-total { margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; font-size: 0.9rem; }
@@ -311,7 +312,11 @@
     .rate-label span { margin-left: 4px; }
     .rate-value { font-weight: 600; color: var(--gold-color); }
     
-    .calc-result { text-align: center; font-size: 1rem; font-weight: 600; color: var(--gold-color); margin-top: 8px; padding: 8px; background: rgba(0, 0, 0, 0.2); border-radius: 8px; animation: pulse 2.5s infinite; flex-grow: 1; }
+    .calc-result-container { display: flex; align-items: center; gap: 10px; }
+    .calc-result { text-align: center; font-size: 1rem; font-weight: 600; color: var(--gold-color); margin-top: 5px; padding: 8px; background: rgba(0, 0, 0, 0.2); border-radius: 8px; animation: pulse 2.5s infinite; flex-grow: 1; }
+    .send-to-gold-btn { background: var(--button-primary); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: bold; cursor: pointer; flex-shrink: 0; transition: all 0.2s ease; }
+    .send-to-gold-btn:hover { background: var(--button-hover); transform: scale(1.1); }
+    
     @keyframes pulse {
       0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
       70% { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
@@ -331,6 +336,7 @@
     
     .total-grand { font-size: 1.2rem; font-weight: 700; margin-bottom: 15px; text-align: center; color: var(--gold-color); text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
     .total-grand span { display: block; margin-top: 5px; font-size: 1.5rem; }
+    .total-grand span small { font-size: 0.7em; opacity: 0.8; }
 
     .tooltip { position: fixed; background: rgba(0,0,0,0.9); color: white; padding: 10px 15px; border-radius: 8px; font-size: 0.9rem; z-index: 1000; pointer-events: none; opacity: 0; transition: opacity 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
     .particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -2; }
@@ -341,7 +347,7 @@
     
     @media (max-width: 1024px) {
         .main-layout {
-            flex-direction: column; /* Coloca as colunas uma sobre a outra */
+            flex-direction: column;
         }
         .panel-content-wrapper, .summary-and-payment {
             grid-template-columns: 1fr;
@@ -360,9 +366,6 @@
     @keyframes fall { from { transform: translateY(0px) rotate(0deg); } to { transform: translateY(100vh) rotate(360deg); } }
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     .gross-gold-display { font-size: 0.8rem; color: var(--accent-color); text-align: right; margin-top: -10px; padding-right: 5px; height: 16px; }
-    .calc-result-container { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
-    .send-to-gold-btn { background: var(--button-primary); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: bold; cursor: pointer; flex-shrink: 0; }
-    .send-to-gold-btn:hover { background: var(--button-hover); transform: scale(1.1); }
     .invisible-button { position: absolute; top: 15px; left: 15px; width: 25px; height: 25px; background: transparent; border: none; cursor: pointer; z-index: 10; padding: 0; display: flex; align-items: center; justify-content: center; font-size: 0; }
     .invisible-button::after { content: "🌸"; font-size: 16px; opacity: 0.5; transition: opacity 0.3s, transform 0.2s; }
     .invisible-button:hover::after { opacity: 1; transform: scale(1.2); }
@@ -433,16 +436,16 @@
                                 <div class="form-group">
                                     <label for="inputReal">Converter R$ para Gold:</label>
                                     <div class="calc-result-container">
-                                        <input type="number" id="inputReal" placeholder="Digite valor em R$" oninput="calculateGoldFromReal()" value="0">
-                                        <button class="send-to-gold-btn" onclick="sendToGold('real')" title="Enviar para o cálculo de Ouro">➔</button>
+                                        <input type="number" id="inputReal" value="0" oninput="calculateGoldFromReal()">
+                                        <button class="send-to-gold-btn" onclick="sendToGold('real', event)" title="Enviar para o cálculo de Ouro">➔</button>
                                     </div>
                                     <div class="calc-result" id="resultadoReal">≈0 Gold</div>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputDollar">Converter USDT para Gold:</label>
                                     <div class="calc-result-container">
-                                        <input type="number" id="inputDollar" placeholder="Digite valor em USDT" oninput="calculateGoldFromDollar()" value="0">
-                                        <button class="send-to-gold-btn" onclick="sendToGold('dollar')" title="Enviar para o cálculo de Ouro">➔</button>
+                                        <input type="number" id="inputDollar" value="0" oninput="calculateGoldFromDollar()">
+                                        <button class="send-to-gold-btn" onclick="sendToGold('dollar', event)" title="Enviar para o cálculo de Ouro">➔</button>
                                     </div>
                                     <div class="calc-result" id="resultadoDollar">≈0 Gold</div>
                                 </div>
@@ -489,12 +492,18 @@
                     <div class="summary">
                         <h3>Resumo do Pedido</h3>
                         <div class="result-group">
-                            <div class="result-item"><div class="result-label">Total Gold:</div><div class="result-value">R$<span id="summaryGoldR">0.00</span></div></div>
-                            <div class="result-item"><div class="result-label">Total Top Up:</div><div class="result-value">R$<span id="summaryTopUpR">0.00</span></div></div>
+                            <div class="result-item">
+                                <div class="result-label">Total Gold:</div>
+                                <div class="result-value" id="summaryGoldDisplay">R$0.00</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">Total Top Up:</div>
+                                <div class="result-value" id="summaryTopUpDisplay">R$0.00</div>
+                            </div>
                             <hr style="border-color: var(--panel-border); margin: 8px 0;">
                             <div class="total-grand">
                                 Total Geral a Pagar
-                                <span>R$<span id="summaryTotalR">0.00</span></span>
+                                <span id="summaryTotalDisplay">R$0.00</span>
                             </div>
                         </div>
                         <button class="btn" onclick="copySmartClipboard(event)">
@@ -534,7 +543,6 @@
   <div class="volume-slider" id="volumeSlider"><span class="volume-label">Volume:</span><input type="range" min="0" max="100" value="70" id="volumeRange"></div>
 
 <script>
-    // O JavaScript continua o mesmo da versão anterior.
     const CONFIG = {
         defaultExchangeRate: 5.88,
         cardFeePercentage: 0.06,
@@ -684,17 +692,21 @@
         });
         updateSummary();
     }
+    // FUNÇÃO MODIFICADA
     function updateSummary() {
         const totalROuro = parseFloat(document.getElementById("totalROuro").innerText) || 0;
+        const totalDOuro = parseFloat(document.getElementById("totalDOuro").innerText) || 0;
         let totalDPacotes = 0;
         Object.keys(pacoteQuantidades).forEach(pacote => {
             totalDPacotes += (pacoteQuantidades[pacote] || 0) * CONFIG.topUpPackages[pacote].price;
         });
         const totalRPacotes = totalDPacotes * exchangeRate;
-        const totalGeral = totalROuro + totalRPacotes;
-        document.getElementById("summaryGoldR").innerText = totalROuro.toFixed(2);
-        document.getElementById("summaryTopUpR").innerText = totalRPacotes.toFixed(2);
-        document.getElementById("summaryTotalR").innerText = totalGeral.toFixed(2);
+        const totalGeralR = totalROuro + totalRPacotes;
+        const totalGeralD = totalDOuro + totalDPacotes;
+
+        document.getElementById("summaryGoldDisplay").innerHTML = `R$${totalROuro.toFixed(2)} <small>/ $${totalDOuro.toFixed(2)}</small>`;
+        document.getElementById("summaryTopUpDisplay").innerHTML = `R$${totalRPacotes.toFixed(2)} <small>/ $${totalDPacotes.toFixed(2)}</small>`;
+        document.getElementById("summaryTotalDisplay").innerHTML = `R$${totalGeralR.toFixed(2)} <small>/ $${totalGeralD.toFixed(2)}</small>`;
     }
     function calcularListaOuro(quantidade) {
         if (quantidade <= 0) return [];
@@ -728,13 +740,13 @@
       document.getElementById("resultadoDollar").textContent = `≈${Math.round(gold)} Gold`;
       playSound('type');
     }
-    function sendToGold(source) {
+    function sendToGold(source, event) {
         const resultId = source === 'real' ? 'resultadoReal' : 'resultadoDollar';
         const goldValue = parseInt(document.getElementById(resultId).textContent.replace(/\D/g, '')) || 0;
         document.getElementById('quantidadeOuro').value = goldValue;
         updateAllCalculations();
-        showTab('gold');
         playSound('success');
+        showTooltip(`Valor ${goldValue} enviado para o cálculo!`, event);
     }
     async function atualizarCotacaoDolar() {
       try {
