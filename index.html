@@ -109,9 +109,9 @@
     }
 
     .tab-button {
-      padding: 12px 25px;
+      padding: 15px 40px;
       font-family: 'Cinzel', serif;
-      font-size: 1.2rem;
+      font-size: 1.4rem;
       font-weight: 600;
       cursor: pointer;
       border: 1px solid var(--panel-border);
@@ -119,6 +119,8 @@
       color: var(--accent-color);
       border-radius: 10px 10px 0 0;
       border-bottom: none;
+      position: relative; /* Necessário para o efeito de brilho */
+      overflow: hidden;  /* Necessário para o efeito de brilho */
     }
 
     .tab-button.active {
@@ -126,6 +128,35 @@
       color: var(--gold-color);
       border-color: var(--gold-color);
       transform: translateY(2px);
+      /* Efeito de brilho constante */
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.6), 0 0 25px rgba(255, 215, 0, 0.4);
+    }
+
+    /* Animação do brilho passando pelo botão */
+    @keyframes shimmer-effect {
+      0% {
+        transform: translateX(-150%) skewX(-30deg);
+      }
+      100% {
+        transform: translateX(150%) skewX(-30deg);
+      }
+    }
+
+    /* Pseudo-elemento que cria o brilho animado */
+    .tab-button.active::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.4) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      animation: shimmer-effect 2.5s infinite linear;
     }
 
     .panel {
@@ -827,7 +858,7 @@
         if (method === 'pix') {
             const pixCelular = document.getElementById('pixCelular').innerText;
             const pixNome = document.getElementById('pixNome').innerText;
-            textToCopy = `PIX: ${pixCelular}\nNome: ${pixNome}`; // MODIFICADO AQUI
+            textToCopy = `PIX: ${pixCelular}\nNome: ${pixNome}`; 
             message = 'Informações do Pix copiadas!';
         } else if (method === 'binance') {
             textToCopy = document.getElementById('binanceEmail').innerText;
@@ -881,19 +912,20 @@
             texto += `🌟 GOLD\n`;
             if (data.servidor) texto += `  - Servidor: ${data.servidor}\n`;
             texto += `  - Anunciar: ${data.quantidadeAnunciada}\n`;
-            texto += `  - Valor: R$${data.totalROuro.toFixed(2)}\n---------------------------------\n`;
+            texto += `  - Valor: R$${data.totalROuro.toFixed(2)} / $${data.totalDOuro.toFixed(2)}\n---------------------------------\n`;
         }
         if (data.hasTopUp) {
             texto += `💮 TOP UP\n${data.pacotesTexto}`;
-            texto += `  - Valor: R$${data.totalPacotesR.toFixed(2)}\n---------------------------------\n`;
+            texto += `  - Valor: R$${data.totalPacotesR.toFixed(2)} / $${data.totalPacotesD.toFixed(2)}\n---------------------------------\n`;
             if (data.login) {
                 texto += `👤 DADOS DA CONTA\n  - Login: ${data.login}\n  - Senha: ${data.password}\n  - Nick: ${data.nickname}\n  - Servidor: ${data.server}\n  - Level: ${data.level}\n  - Método: ${data.metodoLogin}\n---------------------------------\n`;
             }
         }
-        const totalGeral = data.totalROuro + data.totalPacotesR;
-        texto += `💰 TOTAL GERAL: R$${totalGeral.toFixed(2)}\n`;
         
-        // MODIFICADO AQUI: Adiciona informações de pagamento ao final
+        const totalGeralR = data.totalROuro + data.totalPacotesR;
+        const totalGeralD = data.totalDOuro + data.totalPacotesD;
+        texto += `💰 TOTAL GERAL: R$${totalGeralR.toFixed(2)} / $${totalGeralD.toFixed(2)}\n`;
+        
         const pixCelular = document.getElementById('pixCelular').innerText;
         const pixNome = document.getElementById('pixNome').innerText;
         const binanceEmail = document.getElementById('binanceEmail').innerText;
@@ -912,14 +944,17 @@
             showTooltip("Preencha algo para pagar com cartão!", event);
             return;
         }
+        
         const totalGeralR = data.totalROuro + data.totalPacotesR;
+        const totalGeralD = data.totalDOuro + data.totalPacotesD;
         const totalComTaxa = totalGeralR * (1 + CONFIG.cardFeePercentage);
         
         let texto = "⭐ Pedido para Pagamento no Cartão ⭐\n---------------------------------\n";
         if (data.hasGold) texto += `- Item: ${data.quantidadeOuro} Gold\n`;
         if (data.hasTopUp) texto += `- Itens: Pacotes Top Up\n`;
-        texto += `Valor do Pedido: R$${totalGeralR.toFixed(2)}\n`;
-        texto += `Taxa do Cartão (${CONFIG.cardFeePercentage * 100}%): R$${(totalComTaxa - totalGeralR).toFixed(2)}\n`;
+        
+        texto += `Valor do Pedido: R$${totalGeralR.toFixed(2)} / $${totalGeralD.toFixed(2)}\n`;
+        texto += `Taxa do Cartão (${(CONFIG.cardFeePercentage * 100).toFixed(0)}%): R$${(totalComTaxa - totalGeralR).toFixed(2)}\n`;
         texto += `TOTAL A PAGAR: R$${totalComTaxa.toFixed(2)}\n\n`;
         texto += "Link de Pagamento (Mercado Pago):\nhttps://link.mercadopago.com.br/daoshicashstore";
         
