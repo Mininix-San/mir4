@@ -692,7 +692,6 @@
         });
         updateSummary();
     }
-    // FUNÇÃO MODIFICADA
     function updateSummary() {
         const totalROuro = parseFloat(document.getElementById("totalROuro").innerText) || 0;
         const totalDOuro = parseFloat(document.getElementById("totalDOuro").innerText) || 0;
@@ -852,6 +851,7 @@
         texto += `Binance (Email): ${binanceEmail}\n`;
         copyContent(texto, "Resumo copiado!", event);
     }
+    // FUNÇÃO MODIFICADA
     function copyForCardPayment(event) {
         const data = getFormValues();
         if (!data.hasGold && !data.hasTopUp) {
@@ -861,13 +861,29 @@
         const totalGeralR = data.totalROuro + data.totalPacotesR;
         const totalGeralD = data.totalDOuro + data.totalPacotesD;
         const totalComTaxa = totalGeralR * (1 + CONFIG.cardFeePercentage);
+        
         let texto = "⭐ Pedido para Pagamento no Cartão ⭐\n---------------------------------\n";
         if (data.hasGold) texto += `- Item: ${data.quantidadeOuro} Gold\n`;
         if (data.hasTopUp) texto += `- Itens: Pacotes Top Up\n`;
+        
         texto += `Valor do Pedido: R$${totalGeralR.toFixed(2)} / $${totalGeralD.toFixed(2)}\n`;
         texto += `Taxa do Cartão (${(CONFIG.cardFeePercentage * 100).toFixed(0)}%): R$${(totalComTaxa - totalGeralR).toFixed(2)}\n`;
         texto += `TOTAL A PAGAR: R$${totalComTaxa.toFixed(2)}\n\n`;
         texto += "Link de Pagamento (Mercado Pago):\nhttps://link.mercadopago.com.br/daoshicashstore";
+        
+        texto += "\n\n";
+        texto += "⚠️ INFORMAÇÕES IMPORTANTES ⚠️\n";
+        texto += "---------------------------------\n";
+        texto += "💳 Pagamentos no Cartão de Crédito\n\n";
+        texto += "• O cartão deve ser, obrigatoriamente, do próprio comprador.\n";
+        texto += `• Pagamentos têm acréscimo de ${(CONFIG.cardFeePercentage * 100).toFixed(0)}% de juros.\n\n`;
+        texto += "🔒 Para segurança da transação, é necessário informar:\n";
+        texto += "  - Nome completo:\n";
+        texto += "  - CPF:\n";
+        texto += "  - Telefone (WhatsApp):\n";
+        texto += "  - Rede social ativa:\n\n";
+        texto += "❗️Atenção: Em casos de suspeita de fraude ou tentativa de golpe, temos processos internos e legais para identificar e responsabilizar o comprador.";
+        
         copyContent(texto, "Informações para cartão copiadas!", event);
     }
 </script>
